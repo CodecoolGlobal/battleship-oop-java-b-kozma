@@ -9,13 +9,17 @@ import java.util.stream.Stream;
 
 public class Battleship {
     public static void main(String [] args) {
-        System.out.println("Battleship works");
+
+        // Instantiate a Game
         Game game = new Game();
+
+        // Test Assets:
+
+        /// Print Square [][] board;
         Arrays.stream(game.getBoard().getSquareList()).forEach(row ->
         {Arrays.stream(row).forEach(square -> System.out.print(square.toString()));
             System.out.println("\n");
         });
 
-//        System.out.println(Arrays.toString(game.getBoard()));
     }
 }
