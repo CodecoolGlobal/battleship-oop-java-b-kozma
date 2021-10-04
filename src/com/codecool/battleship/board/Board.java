@@ -11,4 +11,6 @@ public class Board {
         }
     }
 
+    public Square[][] getSquareList() {return board;}
+
 }
