@@ -3,7 +3,7 @@ package com.codecool.battleship.util;
 public enum SquareStatus {
     /*TODO: change this to uniCode characters*/
 
-    EMPTY(" "),
+    EMPTY("."),
     SHIP("S"),
     HIT("H"),
     MISSED("M");

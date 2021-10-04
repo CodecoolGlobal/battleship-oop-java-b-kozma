@@ -12,6 +12,10 @@ public class Square extends Point {
         this.status = SquareStatus.EMPTY;
     }
 
+    @Override
+    public String toString() {
+        return status.getCharacter();
+    }
 
 
 }
