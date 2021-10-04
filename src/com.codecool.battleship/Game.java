@@ -8,17 +8,16 @@ import java.util.Scanner;
 public class Game {
     Board board;
 
-    public Game(int size) {
-        if (isBetween(size, 10, 20)) {
-            this.board = new Board(size);
-        } else {
-            this.board = new Board(10);
-            System.out.println("Wrong input! Board is built with default parameters.");
-        }
-    }
-
     public Board getBoard() {return board;}
 
+    public void setBoardSize() {
+        int size = takeInputInteger("Give us a board size between 10 and 20!");
+        while (!isBetween(size, 10,20)) {
+            System.out.println("Between 10 and 20!");
+            size = takeInputInteger("Try again!");
+        }
+        this.board = new Board(size);
+    }
 
     public boolean isValid() {
         return false;
@@ -30,6 +29,12 @@ public class Game {
 
     public boolean isBetween(int input, int min, int max) {
         return (min <= input) && (input <= max);
+    }
+
+    public static int takeInputInteger(String message) {
+        System.out.println(message + "\n");
+        Scanner takeIn = new Scanner(System.in);
+        return takeIn.nextInt();
     }
 
 }

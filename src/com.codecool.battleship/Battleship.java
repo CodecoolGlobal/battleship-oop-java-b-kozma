@@ -12,8 +12,8 @@ public class Battleship {
     public static void main(String [] args) {
 
         // Instantiate a Game
-        int size = takeInputInteger("Give a table size between 10 and 20!");
-        Game game = new Game(size);
+        Game game = new Game();
+        game.setBoardSize();
 
 
         // Test Assets:
@@ -25,15 +25,5 @@ public class Battleship {
 
     }
 
-    public static String takeInputString(String message) {
-        System.out.println(message + "\n");
-        Scanner takeIn = new Scanner(System.in);
-        return takeIn.nextLine();
-    }
 
-    public static int takeInputInteger(String message) {
-        System.out.println(message + "\n");
-        Scanner takeIn = new Scanner(System.in);
-        return takeIn.nextInt();
-    }
 }
