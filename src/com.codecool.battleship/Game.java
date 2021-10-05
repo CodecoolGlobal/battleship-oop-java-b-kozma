@@ -122,7 +122,7 @@ public class Game {
         while (!validFormat(input)) {
             input = takeInputString("Try again!");
         }
-        int x = (int) input.charAt(0) - 97; // A —> 0
+        int x = (int) input.toLowerCase().charAt(0) - 97; // A —> 0
         int y = Integer.parseInt(input.substring(1, input.length())) - 1; //
         return new Point(x, y);
     }
