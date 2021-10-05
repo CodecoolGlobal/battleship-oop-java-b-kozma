@@ -14,8 +14,11 @@ public class Battleship {
 
         display.printBoard(game.getBoard());
         game.setPlayers();
-        game.placeShip(1);
-        display.printBoard(game.getBoard());
+        while(true) {
+            game.placeShip(1);
+            display.printBoard(game.getBoard());
+        }
+
 
 
 
