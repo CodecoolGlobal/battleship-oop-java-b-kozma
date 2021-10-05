@@ -1,6 +1,7 @@
 package com.codecool.battleship;
 
 import com.codecool.battleship.board.Board;
+import com.codecool.battleship.board.Display;
 
 import java.awt.*;
 import java.util.InputMismatchException;
@@ -12,6 +13,8 @@ public class Game {
     Board board;
 
     Player[] players = new Player[2];
+
+    Display display = new Display();
 
     // GAME STEPS METHODS
 
@@ -44,29 +47,29 @@ public class Game {
 
     public void placeShip(int player) {
         Point input = takeInputCoordinates("Give coordinates!");
-        System.out.println("TESTING: " + input.x + "-" + input.y + " is a good coordinate!");
+        display.printMessages("TESTING: " + input.x + "-" + input.y + " is a good coordinate!");
         // TODO isValid(coordinates) —> while (!isValid(coord)) {input = takeInputCoord("Try again!");}
     }
 
     // VALIDATIONS
     public boolean isValid(Point input) {
         if (input == null) {
-            System.out.println("Input is null!");
+            display.printMessages("Input is null!");
             return false;
         } else if (isNegative(input)) {
-            System.out.println("At least one input is negative!");
+            display.printMessages("At least one input is negative!");
             return false;
         } else if (isOutOfBounds(input)) {
-            System.out.println("At least one coordinate is out of bounds!");
+            display.printMessages("At least one coordinate is out of bounds!");
             return false;
         } // More validations to be added.
-        System.out.println("[TEST LOG] Valid input!");
+        display.printMessages("[TEST LOG] Valid input!");
         return true;
     }
 
     public boolean validFormat(String coordinates) {
         if (coordinates.length() > 3 || !coordinates.toLowerCase().matches("[a-z][0-9]+")) {
-            System.out.println("Format your input in the following way:\n'B5' or 'B19'.");
+            display.printMessages("Format your input in the following way:\n'B5' or 'B19'.");
             return false;
         }
         return true;
@@ -92,14 +95,14 @@ public class Game {
 
     // TAKE INPUT
     public int takeInputInteger(String message) {
-        System.out.println(message+"\n");
+        display.printMessages(message+"\n");
         Scanner scanInteger = new Scanner(System.in);
         int input = -1;
         while (input == -1) {
             try {
                 input = scanInteger.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("Mismatch error: Give Integer!");
+                display.printMessages("Mismatch error: Give Integer!");
                 scanInteger.next();
             }
         }
@@ -107,7 +110,7 @@ public class Game {
     }
 
     public String takeInputString(String message) {
-        System.out.println(message+"\n");
+        display.printMessages(message+"\n");
         Scanner scanInteger = new Scanner(System.in);
         String result = scanInteger.nextLine();
         return result;

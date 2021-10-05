@@ -41,7 +41,7 @@ public class Display {
         Square square;
 
 
-        for (int x = 0; x < size; x++) {
+        for (int x = 1; x < size+1; x++) {
             if (x < 10) {
                 System.out.print(" " + x + " ");
             }
