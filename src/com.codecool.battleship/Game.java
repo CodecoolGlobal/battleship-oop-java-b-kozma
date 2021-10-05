@@ -4,6 +4,7 @@ import com.codecool.battleship.board.Board;
 
 import java.awt.*;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Game {
@@ -40,12 +41,12 @@ public class Game {
                 players[0].getName() + " versus Captain " + players[1].getName());
     }
 
-    // Work in Progress
-    public void placeShip(int player) {
-        String input = " // Scanner to take in a String like B5 ";
-    }
-    // End - Work in Progress
 
+    public void placeShip(int player) {
+        String input = takeInputCoordinates("Give coordinates!");
+        System.out.println("TESTING: " + input + " is a good coordinate!");
+        // TODO get converted coordinates and isValid(coordinates)
+    }
 
     // VALIDATIONS
     public boolean isValid(Point input) {
@@ -63,6 +64,13 @@ public class Game {
         return true;
     }
 
+    public boolean validFormat(String coordinates) {
+        if (coordinates.length() > 3 || !coordinates.toLowerCase().matches("[a-z][0-9]+")) {
+            System.out.println("Format your input in the following way:\n'B5' or 'B19'.");
+            return false;
+        }
+        return true;
+    }
 
     public boolean isOutOfBounds(Point input) {
         // Returns true if one of the x or y coordinates go beyond the board parameters
@@ -101,25 +109,18 @@ public class Game {
     public String takeInputString(String message) {
         System.out.println(message+"\n");
         Scanner scanInteger = new Scanner(System.in);
-        return scanInteger.nextLine();
+        String result = scanInteger.nextLine();
+        return result;
     }
 
-    /* FORMATTING VALIDATION ASSETS [Work in Progress]
-    public String[] takeInputCoordinates(String message) {
+    public String takeInputCoordinates(String message) {
         String input = takeInputString(message);
-        // TODO check if input fits 'B5' format
-        return input.split("");
-    }
-
-    public boolean validFormat(String coordinates) {
-        if ((int) coordinates.charAt(0) < 97 ||
-                (int) coordinates.charAt(0) > 122) {
-            System.out.println("You have to start with a letter!\nExample: 'B5'");
-            return false;
+        while (!validFormat(input)) {
+            input = takeInputString("Try again!");
         }
-        return true;
+        // TODO this should give back a Point eventually!
+        return input;
     }
 
-     */
 
 }

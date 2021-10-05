@@ -15,6 +15,7 @@ public class Battleship {
         Game game = new Game();
         game.setBoardSize();
         game.setPlayers();
+        game.placeShip(1);
 
 
         // Test Assets:
