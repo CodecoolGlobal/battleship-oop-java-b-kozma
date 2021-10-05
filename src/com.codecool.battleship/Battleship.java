@@ -10,12 +10,14 @@ import java.util.stream.Stream;
 
 public class Battleship {
 
-   private Display display;
-   private Input input;
+    private Display display;
+    private Input input;
 
     public static void main(String [] args) {
         System.out.println("Battleship works");
         Game game = new Game();
+        Display display = new Display();
+        display.printMenu();
         Arrays.stream(game.getBoard().getSquareList()).forEach(row -> {
             Arrays.stream(row).forEach(square -> System.out.print(square.toString()));
             System.out.println("\n");
