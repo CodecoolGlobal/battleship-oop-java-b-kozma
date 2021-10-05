@@ -27,8 +27,13 @@ public class Game {
 
     public void placeShip(int player) {
         Point point = input.takeCoordinates("Give coordinates!");
-        display.printMessages("TESTING: " + point.x + "-" + point.y + " is a good coordinate!");
-        input.isValid(board, point);
+        display.printMessages("TESTING: " + point.x + "-" + point.y + " is a well formatted coordinate!");
+        if (input.isValid(board, point)) {
+            if (input.isEmpty(board, point)){
+                // Ship Placement Should be Executed Here!
+                display.printMessages("Ship Placement should be executed here!");
+            };
+        };
     }
 
     // This method will naively produce subsequent references to squares based on orientation

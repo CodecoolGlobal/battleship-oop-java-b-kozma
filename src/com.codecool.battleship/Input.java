@@ -39,7 +39,13 @@ public class Input {
     }
 
     public boolean isEmpty(Board board, Point coordinates) {
-        return (board.getSquareList()[coordinates.x][coordinates.y].getStatus() == SquareStatus.EMPTY);
+        if (board.getSquareList()[coordinates.x][coordinates.y].getStatus() == SquareStatus.EMPTY) {
+            display.printMessages("The square is empty!");
+            return true;
+        } else {
+            display.printMessages("The square is taken!");
+            return false;
+        }
     }
 
     public boolean isOutOfBounds(Board board, Point input) {
