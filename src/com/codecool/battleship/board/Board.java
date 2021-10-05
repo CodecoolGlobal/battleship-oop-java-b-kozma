@@ -1,7 +1,7 @@
 package com.codecool.battleship.board;
 
 public class Board {
-    private Square[][] board;
+    private final Square[][] board;
     public Board(int size) {
         this.board = new Square[size][size];
         for (int x = 0; x < size; x++) {
@@ -12,5 +12,9 @@ public class Board {
     }
 
     public Square[][] getSquareList() {return board;}
+
+    public Square getSquare(int xCoordinate, int yCoordinate) {
+        return board [xCoordinate][yCoordinate];
+    }
 
 }
