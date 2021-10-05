@@ -1,13 +1,11 @@
 package com.codecool.battleship;
 
-import com.codecool.battleship.board.Board;
-import com.codecool.battleship.board.Display;
+import com.codecool.battleship.board.*;
+import com.codecool.battleship.util.ShipType;
 
 import java.awt.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import com.codecool.battleship.board.*;
-import com.codecool.battleship.util.ShipType;
 
 public class Game {
 
@@ -134,7 +132,7 @@ public class Game {
     // and DO NOT instantiate ship with the output if ANY of the squares are invalid
     // (i.e.: out of bounds or neighbouring or occupied)
     // Possibly move this to board
-    private Square[] getShipCoordinates(Square headCoordinates, ShipType shipType, Orientations orientation) {
+    private Square[] createShipCoordinates(Square headCoordinates, ShipType shipType, Orientations orientation) {
         int length = shipType.getLength();
         Square[] shipCoordinates = new Square[length];
         int xCoordinate;
