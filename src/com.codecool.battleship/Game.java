@@ -3,6 +3,7 @@ package com.codecool.battleship;
 import com.codecool.battleship.board.Board;
 
 import java.awt.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Game {
@@ -31,10 +32,19 @@ public class Game {
         return (min <= input) && (input <= max);
     }
 
-    public static int takeInputInteger(String message) {
-        System.out.println(message + "\n");
-        Scanner takeIn = new Scanner(System.in);
-        return takeIn.nextInt();
+    public int takeInputInteger(String message) {
+        System.out.println(message+"\n");
+        Scanner scanInteger = new Scanner(System.in);
+        int input = -1;
+        while (input == -1) {
+            try {
+                input = scanInteger.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Mismatch error: Give Integer!");
+                scanInteger.next();
+            }
+        }
+        return input;
     }
 
 }
