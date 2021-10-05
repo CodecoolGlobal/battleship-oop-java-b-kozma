@@ -1,16 +1,15 @@
-package com.codecool.battleship.controller;
+package com.codecool.battleship.board;
 
 import com.codecool.battleship.Game;
 import com.codecool.battleship.Input;
 import com.codecool.battleship.Player;
-import com.codecool.battleship.board.Display;
 
-public class Controller {
+public class GameSetup {
 
     Display display;
     Input input;
 
-    public Controller(Display display, Input input) {
+    public GameSetup(Display display, Input input) {
         this.display = display;
         this.input = input;
     }
@@ -20,10 +19,10 @@ public class Controller {
         return input.takeInteger("Please choose an option!");
     }
 
-    public Player[] getPlayers() {
+    public Player[] getPlayers(int boardSize) {
         String playerOne = input.takeString("Player 1's name: ");
         String playerTwo = input.takeString("Player 2's name: ");
-        Player[] players = {new Player(playerOne), new Player(playerTwo)};
+        Player[] players = {new Player(playerOne, boardSize), new Player(playerTwo, boardSize)};
         return players;
     }
 
@@ -45,8 +44,9 @@ public class Controller {
 
     public void playGame() {
         int boardSize = input.getBoardSize();
-        Player[] players = getPlayers();
-        Game game = new Game(players, boardSize, display, input);
+        Board playerBoard = new Board(boardSize);
+        Player[] players = getPlayers(boardSize);
+        Game game = new Game(players, display, input);
         game.play();
     }
 

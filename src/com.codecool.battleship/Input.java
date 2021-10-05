@@ -2,6 +2,8 @@ package com.codecool.battleship;
 
 import com.codecool.battleship.board.Board;
 import com.codecool.battleship.board.Display;
+import com.codecool.battleship.board.Orientations;
+import com.codecool.battleship.board.Square;
 import com.codecool.battleship.util.SquareStatus;
 
 import java.awt.*;
@@ -89,14 +91,41 @@ public class Input {
         return result;
     }
 
-    public Point takeCoordinates(String message) {
+    public Square takeCoordinates(String message, Board board) {
         String input = takeString(message);
         while (!validFormat(input)) {
             input = takeString("Try again!");
         }
         int y = (int) input.toLowerCase().charAt(0) - 97; // aA —> 0
-        int x = Integer.parseInt(input.substring(1, input.length())) - 1; // 1 —> 0
-        return new Point(x, y);
+        int x = Integer.parseInt(input.substring(1)) - 1; // 1 —> 0
+        return board.getSquare(x, y);
+    }
+
+    private boolean isValidOrientation(int orientationNumCode) {
+        return orientationNumCode == 1 || orientationNumCode == 2;
+    }
+
+    public Orientations getUserShipOrientation() {
+        String userShipOrientationPromptMsg = "Please choose an orientation: \n Horizontal(1) \n Vertical(2)";
+        int userShipOrientationNumCode = takeInteger(userShipOrientationPromptMsg);
+        while(!isValidOrientation(userShipOrientationNumCode)) {
+            display.printMessages(userShipOrientationPromptMsg);
+            userShipOrientationNumCode = takeInteger("Try again");
+        }
+        Orientations orientation;
+        switch (userShipOrientationNumCode) {
+            case 1:
+                orientation = Orientations.HORIZONTAL;
+                break;
+            case 2:
+                orientation = Orientations.VERTICAL;
+                break;
+            default:
+                // QUESTION This should never happen
+                // Can we get the enum object back from the entered user input somehow?
+                throw new IllegalArgumentException("Orientation number code must be either 1 or 2");
+        }
+        return orientation;
     }
 
     public int getBoardSize() {

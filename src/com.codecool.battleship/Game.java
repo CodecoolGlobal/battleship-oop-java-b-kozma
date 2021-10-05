@@ -3,30 +3,35 @@ package com.codecool.battleship;
 import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
 
-import java.awt.*;
-
 public class Game {
 
     private final Display display;
     private final Input input;
-    private final Board board;
     private final Player[] players;
     private Player currentPlayer;
 
-    public Game(Player[] players, int boardSize, Display display, Input input) {
+    public Game(Player[] players, Display display, Input input) {
         this.display = display;
         this.input = input;
-        this.board = new Board(boardSize);
         this.players = players;
         this.currentPlayer = players[0];
     }
 
-    public Board getBoard() {return board;}
-
     public void play() {
-        System.out.println("Current player is: " + currentPlayer.getName() +"\n" + "Opponent is: " + getOpponent().getName());
-        switchPlayer();
-        System.out.println("Current player is: " + currentPlayer.getName() +"\n" + "Opponent is: " + getOpponent().getName());
+        placementPhase();
+    }
+
+    private void placementPhase() {
+        // NOTE this is only valid if we can want to place one of each ship
+        ShipType[] shipsToPlace = ShipType.values();
+        for(ShipType shipType : shipsToPlace) {
+            for (int i=0; i < players.length; i++) {
+                System.out.println("Current player is: " + currentPlayer.getName() +"\n" + "Opponent is: " + getOpponent().getName());
+                placeShip(currentPlayer, shipType);
+                display.printBoard(currentPlayer.getBoard());
+                switchPlayer();
+            }
+        }
     }
 
     private void switchPlayer() {
@@ -45,15 +50,16 @@ public class Game {
         }
     }
 
-    public void placeShip(Player player) {
-        Point point = input.takeCoordinates("Give coordinates!");
-        display.printMessages("TESTING: " + point.x + "-" + point.y + " is a well formatted coordinate!");
-        if (input.isValid(board, point)) {
-            if (input.isEmpty(board, point)){
-                // Ship Placement Should be Executed Here!
-                display.printMessages("Ship Placement should be executed here!");
-            };
-        };
+    public void placeShip(Player player, ShipType shipType) {
+        display.printMessages("Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
+        Board board = player.getBoard();
+        Square square = input.takeCoordinates("Give coordinates!", board);
+        Orientations orientation = input.getUserShipOrientation();
+        if (input.isValid(board, square) && input.isEmpty(board, square)) {
+            Square[] shipCoordinates = createShipCoordinates(square, shipType, orientation);
+            Ship ship = new Ship(shipCoordinates);
+            player.getBoardFactory().manualPlacement(ship);
+        }
     }
 
     // This method will naively produce subsequent references to squares based on orientation
@@ -82,7 +88,7 @@ public class Game {
         }
         shipCoordinates[0] = headCoordinates;
         for (int i = 1; i < length; i++) {
-            shipCoordinates[i] = board.getSquare(headCoordinates.x + i * xCoordinate, headCoordinates.y + i * yCoordinate);
+            shipCoordinates[i] = currentPlayer.getBoard().getSquare(headCoordinates.x + i * xCoordinate, headCoordinates.y + i * yCoordinate);
         }
         return shipCoordinates;
     }
