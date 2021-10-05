@@ -11,21 +11,33 @@ public class Game {
     private final Input input;
     private final Board board;
     private final Player[] players;
+    private Player currentPlayer;
 
     public Game(Player[] players, int boardSize, Display display, Input input) {
         this.display = display;
         this.input = input;
         this.board = new Board(boardSize);
         this.players = players;
+        this.currentPlayer = players[0];
     }
 
     public Board getBoard() {return board;}
 
     public void play() {
-        System.out.println("Game is played here");
+        System.out.println("Current player is: " + currentPlayer.getName());
+        switchPlayer();
+        System.out.println("Current player is: " + currentPlayer.getName());
     }
 
-    public void placeShip(int player) {
+    private void switchPlayer() {
+        if(currentPlayer == players[0]) {
+            currentPlayer = players[1];
+        } else {
+            currentPlayer = players[0];
+        }
+    }
+
+    public void placeShip(Player player) {
         Point point = input.takeCoordinates("Give coordinates!");
         display.printMessages("TESTING: " + point.x + "-" + point.y + " is a well formatted coordinate!");
         if (input.isValid(board, point)) {
