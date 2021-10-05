@@ -12,6 +12,8 @@ public class Game {
 
     Player[] players = new Player[2];
 
+    // GAME STEPS METHODS
+
     public Board getBoard() {return board;}
 
     public void setBoardSize() {
@@ -44,6 +46,8 @@ public class Game {
     }
     // End - Work in Progress
 
+
+    // VALIDATIONS
     public boolean isValid(Point input) {
         if (input == null) {
             System.out.println("Input is null!");
@@ -77,6 +81,8 @@ public class Game {
         return (min <= input) && (input <= max);
     }
 
+
+    // TAKE INPUT
     public int takeInputInteger(String message) {
         System.out.println(message+"\n");
         Scanner scanInteger = new Scanner(System.in);
@@ -97,5 +103,23 @@ public class Game {
         Scanner scanInteger = new Scanner(System.in);
         return scanInteger.nextLine();
     }
+
+    /* FORMATTING VALIDATION ASSETS [Work in Progress]
+    public String[] takeInputCoordinates(String message) {
+        String input = takeInputString(message);
+        // TODO check if input fits 'B5' format
+        return input.split("");
+    }
+
+    public boolean validFormat(String coordinates) {
+        if ((int) coordinates.charAt(0) < 97 ||
+                (int) coordinates.charAt(0) > 122) {
+            System.out.println("You have to start with a letter!\nExample: 'B5'");
+            return false;
+        }
+        return true;
+    }
+
+     */
 
 }
