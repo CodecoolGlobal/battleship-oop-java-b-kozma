@@ -17,5 +17,11 @@ public class Square extends Point {
         return status.getCharacter();
     }
 
+    public SquareStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(SquareStatus status) {
+        this.status = status;
+    }
 }
