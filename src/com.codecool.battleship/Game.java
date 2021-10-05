@@ -50,9 +50,7 @@ public class Game {
     public void placeShip(int player) {
         Point point = input.takeCoordinates("Give coordinates!");
         display.printMessages("TESTING: " + point.x + "-" + point.y + " is a good coordinate!");
-        if (input.isValid(board, point)) {
-            board.getSquareList()[point.x][point.y].setStatus(SquareStatus.SHIP);
-        };
+        input.isValid(board, point);
     }
 
 
