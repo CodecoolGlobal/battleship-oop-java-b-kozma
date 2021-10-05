@@ -24,9 +24,9 @@ public class Game {
     public Board getBoard() {return board;}
 
     public void play() {
-        System.out.println("Current player is: " + currentPlayer.getName());
+        System.out.println("Current player is: " + currentPlayer.getName() +"\n" + "Opponent is: " + getOpponent().getName());
         switchPlayer();
-        System.out.println("Current player is: " + currentPlayer.getName());
+        System.out.println("Current player is: " + currentPlayer.getName() +"\n" + "Opponent is: " + getOpponent().getName());
     }
 
     private void switchPlayer() {
@@ -34,6 +34,14 @@ public class Game {
             currentPlayer = players[1];
         } else {
             currentPlayer = players[0];
+        }
+    }
+
+    private Player getOpponent() {
+        if(currentPlayer == players[0]) {
+            return players[1];
+        } else {
+            return players[0];
         }
     }
 
