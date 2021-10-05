@@ -7,7 +7,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Game {
+
     Board board;
+
+    Player[] players = new Player[2];
 
     public Board getBoard() {return board;}
 
@@ -20,13 +23,55 @@ public class Game {
         this.board = new Board(size);
     }
 
-    public boolean isValid() {
-        return false;
+    public void setPlayers() {
+        players[0] = new Player(
+                takeInputString("Tell us your name, Player 1!"),
+                1,
+                "X");
+
+        players[1] = new Player(
+                takeInputString("Tell us your name, Player 2!"),
+                2,
+                "O"
+        );
+        System.out.println("Players are all set!\nCaptain " +
+                players[0].getName() + " versus Captain " + players[1].getName());
     }
 
-    public boolean isOutOfBounds(Point inputPoint) {
-        return false;
+    // Work in Progress
+    public void placeShip(int player) {
+        String input = " // Scanner to take in a String like B5 ";
     }
+    // End - Work in Progress
+
+    public boolean isValid(Point input) {
+        if (input == null) {
+            System.out.println("Input is null!");
+            return false;
+        } else if (isNegative(input)) {
+            System.out.println("At least one input is negative!");
+            return false;
+        } else if (isOutOfBounds(input)) {
+            System.out.println("At least one coordinate is out of bounds!");
+            return false;
+        } // More validations to be added.
+        System.out.println("[TEST LOG] Valid input!");
+        return true;
+    }
+
+
+    public boolean isOutOfBounds(Point input) {
+        // Returns true if one of the x or y coordinates go beyond the board parameters
+        // Returns false if no problem is found
+        return ((input.x > board.getSquareList().length) || (input.y > board.getSquareList()[0].length));
+    }
+
+    public boolean isNegative(Point input) {
+        // Returns true if negative
+        // Returns false if positive
+        return (input.x < 0 || input.y < 0);
+    }
+
 
     public boolean isBetween(int input, int min, int max) {
         return (min <= input) && (input <= max);
@@ -45,6 +90,12 @@ public class Game {
             }
         }
         return input;
+    }
+
+    public String takeInputString(String message) {
+        System.out.println(message+"\n");
+        Scanner scanInteger = new Scanner(System.in);
+        return scanInteger.nextLine();
     }
 
 }
