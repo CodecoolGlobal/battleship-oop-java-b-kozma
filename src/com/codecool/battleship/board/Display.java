@@ -8,6 +8,19 @@ public class Display {
         System.out.println("Battleship is loading...");
     }
 
+    public void printWelcomeArt() {
+        System.out.println("__      _____ _    ___ ___  __  __ ___         \n" +
+                "\\ \\    / / __| |  / __/ _ \\|  \\/  | __|        \n" +
+                " \\  ^^  /| _|| |_| (_| (_) | |\\/| | _|         \n" +
+                "  \\_/\\_/ |___|____\\___\\___/|_|  |_|___|        \n" +
+                "               |_   _/ _ \\                     \n" +
+                "                 | || (_) |                    \n" +
+                " ___   _ _____ __|_| \\___/___ ___ _  _ ___ ___ \n" +
+                "| _ ) /_\\_   _|_   _| |  | __/ __| || |_ _| _ \\\n" +
+                "| _ \\/ _ \\| |   | | | |__| _|\\__ \\ __ || ||  _/\n" +
+                "|___/_/ \\_\\_|   |_| |____|___|___/_||_|___|_|  ");
+    }
+
     public void printMessages(String message) {
         System.out.println(message);
     }
