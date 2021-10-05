@@ -18,12 +18,15 @@ public class Battleship {
         game.placeShip(1);
 
 
+        /*
         // Test Assets:
         /// Print Square [][] board;
         Arrays.stream(game.getBoard().getSquareList()).forEach(row ->
         {Arrays.stream(row).forEach(square -> System.out.print(square.toString()));
             System.out.println("\n");
         });
+
+         */
 
     }
 

@@ -45,7 +45,7 @@ public class Game {
     public void placeShip(int player) {
         Point input = takeInputCoordinates("Give coordinates!");
         System.out.println("TESTING: " + input.x + "-" + input.y + " is a good coordinate!");
-        // TODO get converted coordinates and isValid(coordinates)
+        // TODO isValid(coordinates) —> while (!isValid(coord)) {input = takeInputCoord("Try again!");}
     }
 
     // VALIDATIONS
