@@ -4,21 +4,6 @@ public class Display {
 
     public void printMenu() {
         System.out.println("Battleship is loading...");
-        System.out.println("""
-
-                         .---.
-                        /_\\_/_\\
-                        /o   o\\
-                     __(=  "  =)__
-                      //\\'-=-'/\\\\
-                         )   (_
-                        /      `"=-._
-                       /       \\     ``"=.
-                      /  /   \\  \\         `=..--.
-                  ___/  /     \\  \\___      _,  , `\\
-                 `-----' `""\""`'-----``""\"`  \\  \\_/ \s
-                  The Real Navy Seals         `-`   \s
-                """);
     }
 
     public void printMessages(String message) {
@@ -42,4 +27,30 @@ public class Display {
                 "You try and hit them by calling out the coordinates of one of the squares on the board.");
     }
 
+    public void printBoard(Board board) {
+        int size = board.getSquareList().length;
+        System.out.print(" ");
+        for (char i = 'A'; i < 'A' + size ; i++) {
+            System.out.print("  " + i );
+        }
+
+        System.out.println();
+
+        Square square;
+
+
+        for (int x = 0; x < size; x++) {
+            if (x < 10) {
+                System.out.print(" " + x + " ");
+            }
+            else {
+                System.out.print(x + " ");
+            }
+            for (int y = 0; y < size; y++) {
+                square = new Square(x, y);
+                System.out.print("" + square + "  ");
+            }
+            System.out.println();
+        }
+    }
 }

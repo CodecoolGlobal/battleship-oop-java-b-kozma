@@ -1,5 +1,6 @@
 package com.codecool.battleship;
 
+import com.codecool.battleship.board.Board;
 import com.codecool.battleship.board.Display;
 import com.codecool.battleship.board.Square;
 
@@ -12,16 +13,19 @@ public class Battleship {
 
     private Display display;
     private Input input;
+    private Board board;
 
     public static void main(String [] args) {
         System.out.println("Battleship works");
         Game game = new Game();
         Display display = new Display();
-        display.printMenu();
-        Arrays.stream(game.getBoard().getSquareList()).forEach(row -> {
-            Arrays.stream(row).forEach(square -> System.out.print(square.toString()));
-            System.out.println("\n");
-        });
+        Board board = new Board(15);
+        display.printBoard(board);
+//        display.printMenu();
+//        Arrays.stream(game.getBoard().getSquareList()).forEach(row -> {
+//            Arrays.stream(row).forEach(square -> System.out.print(square.toString()));
+//            System.out.println("\n");
+//        });
 
     }
 }
