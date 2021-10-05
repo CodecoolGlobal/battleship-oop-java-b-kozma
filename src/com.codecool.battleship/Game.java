@@ -23,18 +23,27 @@ public class Game {
 
     public void play() {
         System.out.println("Game is played here");
+        display.printBoard(board);
+        // TESTING START
+        placeShip(1);
+
+        // TESTING END
     }
 
     public void placeShip(int player) {
         Point point = input.takeCoordinates("Give coordinates!");
         display.printMessages("TESTING: " + point.x + "-" + point.y + " is a well formatted coordinate!");
-        if (input.isValid(board, point)) {
+        if (input.isValidInput(board, point)) {
             if (input.isEmpty(board, point)){
-                // Ship Placement Should be Executed Here!
+                // Empty HEAD -> [...] coords —> coords vs board —> if all empty —> place ship
                 display.printMessages("Ship Placement should be executed here!");
+                Orientations orientation = input.takeDirection();
+                input.isValidPlacement(board, point, ShipType.BATTLESHIP, orientation);
             };
         };
     }
+
+    // TODO
 
     // This method will naively produce subsequent references to squares based on orientation
     // Validate based on the output of this method

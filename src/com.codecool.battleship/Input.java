@@ -2,6 +2,8 @@ package com.codecool.battleship;
 
 import com.codecool.battleship.board.Board;
 import com.codecool.battleship.board.Display;
+import com.codecool.battleship.board.Orientations;
+import com.codecool.battleship.util.ShipType;
 import com.codecool.battleship.util.SquareStatus;
 
 import java.awt.*;
@@ -15,7 +17,7 @@ public class Input {
         this.display = display;
     }
 
-    public boolean isValid(Board board, Point input) {
+    public boolean isValidInput(Board board, Point input) {
         if (input == null) {
             display.printMessages("Input is null!");
             return false;
@@ -28,6 +30,28 @@ public class Input {
         }
         display.printMessages("[TEST LOG] Valid input!");
         return true;
+    }
+
+    public boolean isValidPlacement(Board board, Point input, ShipType type, Orientations orientation) {
+        int shipLength = type.getLength();
+        int boardLength = board.getSquareList().length;
+
+        if (orientation == Orientations.HORIZONTAL){
+            if ((input.y + shipLength - 1) >= boardLength) {
+                display.printMessages("You cannot place horizontally!");
+                return false;
+            }
+            display.printMessages("You can easily place a ship here!");
+            return true;
+        } else if (orientation == Orientations.VERTICAL){
+            if ((input.x + shipLength - 1) >= boardLength) {
+                display.printMessages("You cannot place vertically!");
+                return false;
+            }
+            display.printMessages("You can easily place a ship here!");
+            return true;
+        }
+        return false;
     }
 
     public boolean validFormat(String coordinates) {
@@ -64,6 +88,7 @@ public class Input {
     public boolean isBetween(int input, int min, int max) {
         return (min <= input) && (input <= max);
     }
+
 
 
     // TAKE INPUT
@@ -106,6 +131,16 @@ public class Input {
             boardSize = takeInteger("Try again!");
         }
         return boardSize;
+    }
+
+    public Orientations takeDirection(){
+        int input = takeInteger("Press 0 for horizontal, and 1 for vertical.");
+        while(input != Orientations.HORIZONTAL.getValue() && input != Orientations.VERTICAL.getValue()) {
+            display.printMessages("Incorrect orientation!");
+            input = takeInteger("Press 0 for horizontal and 1 for vertical.");
+        }
+        if (input == Orientations.HORIZONTAL.getValue()) {return Orientations.HORIZONTAL;}
+        else {return Orientations.VERTICAL;}
     }
 
 }
