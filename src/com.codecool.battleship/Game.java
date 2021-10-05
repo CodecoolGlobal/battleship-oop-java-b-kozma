@@ -28,7 +28,7 @@ public class Game {
     public void placeShip(int player) {
         Point point = input.takeCoordinates("Give coordinates!");
         display.printMessages("TESTING: " + point.x + "-" + point.y + " is a good coordinate!");
-        // TODO isValid(coordinates) —> while (!isValid(coord)) {input = takeInputCoord("Try again!");}
+        input.isValid(board, point);
     }
 
     // This method will naively produce subsequent references to squares based on orientation
