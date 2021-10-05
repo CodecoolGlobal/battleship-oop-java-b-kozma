@@ -10,8 +10,8 @@ import java.util.stream.Stream;
 
 public class Battleship {
 
-    Display display;
-    Input input;
+   private Display display;
+   private Input input;
 
     public static void main(String [] args) {
         System.out.println("Battleship works");
