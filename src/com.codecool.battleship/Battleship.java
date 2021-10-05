@@ -9,7 +9,9 @@ public class Battleship {
         Display display = new Display();
         // Instantiate a Game
         Game game = new Game();
+        display.printWelcomeArt();
         game.setBoardSize();
+
         display.printBoard(game.getBoard());
         game.setPlayers();
         game.placeShip(1);
