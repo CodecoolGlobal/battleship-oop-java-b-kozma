@@ -34,14 +34,12 @@ public class Game {
     public void setPlayers() {
         players[0] = new Player(
                 input.takeString("Tell us your name, Player 1!"),
-                1,
-                "X");
+                1);
 
         players[1] = new Player(
                 input.takeString("Tell us your name, Player 2!"),
-                2,
-                "O"
-        );
+                2);
+
         System.out.println("Players are all set!\nCaptain " +
                 players[0].getName() + " versus Captain " + players[1].getName());
     }

@@ -10,17 +10,13 @@ public class Player {
 
     private final String name;
 
-    private final String UNICODE;
-
     private boolean lost = false;
 
     List<Ship> ships = new ArrayList<>();
 
-    Player(String name, int id, String unicode) {
+    Player(String name, int id) {
         this.name = name;
-        this.ID = id;
-        this.UNICODE = unicode;
-    }
+        this.ID = id;}
 
     public void registerShip(Ship ship) {
         ships.add(ship);
@@ -32,8 +28,6 @@ public class Player {
     }
 
     public String getName() {return this.name;}
-
-    public String getUNICODE() {return this.UNICODE;}
 
     public boolean lost() {return this.lost;}
 }
