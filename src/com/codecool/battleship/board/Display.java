@@ -44,14 +44,13 @@ public class Display {
 
     public void printBoard(Board board) {
         int size = board.getSquareList().length;
+        Square[][] squareList = board.getSquareList();
         System.out.print(" ");
         for (char i = 'A'; i < 'A' + size ; i++) {
             System.out.print("  " + i );
         }
 
         System.out.println();
-
-        Square square;
 
 
         for (int x = 1; x < size+1; x++) {
@@ -62,8 +61,7 @@ public class Display {
                 System.out.print(x + " ");
             }
             for (int y = 0; y < size; y++) {
-                square = new Square(x, y);
-                System.out.print("" + square + "  ");
+                System.out.print("" + squareList[x-1][y].getStatus().getCharacter() + "  ");
             }
             System.out.println();
         }

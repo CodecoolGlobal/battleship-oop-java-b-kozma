@@ -2,6 +2,7 @@ package com.codecool.battleship;
 
 import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
+import com.codecool.battleship.util.SquareStatus;
 
 import java.awt.*;
 import java.util.InputMismatchException;
@@ -49,7 +50,7 @@ public class Game {
     public void placeShip(int player) {
         Point point = input.takeCoordinates("Give coordinates!");
         display.printMessages("TESTING: " + point.x + "-" + point.y + " is a good coordinate!");
-        // TODO isValid(coordinates) —> while (!isValid(coord)) {input = takeInputCoord("Try again!");}
+        input.isValid(board, point);
     }
 
 
