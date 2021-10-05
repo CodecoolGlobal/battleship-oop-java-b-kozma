@@ -43,8 +43,8 @@ public class Game {
 
 
     public void placeShip(int player) {
-        String input = takeInputCoordinates("Give coordinates!");
-        System.out.println("TESTING: " + input + " is a good coordinate!");
+        Point input = takeInputCoordinates("Give coordinates!");
+        System.out.println("TESTING: " + input.x + "-" + input.y + " is a good coordinate!");
         // TODO get converted coordinates and isValid(coordinates)
     }
 
@@ -113,13 +113,14 @@ public class Game {
         return result;
     }
 
-    public String takeInputCoordinates(String message) {
+    public Point takeInputCoordinates(String message) {
         String input = takeInputString(message);
         while (!validFormat(input)) {
             input = takeInputString("Try again!");
         }
-        // TODO this should give back a Point eventually!
-        return input;
+        int x = (int) input.charAt(0) - 97; // A —> 0
+        int y = Integer.parseInt(input.substring(1, input.length())) - 1; //
+        return new Point(x, y);
     }
 
 
