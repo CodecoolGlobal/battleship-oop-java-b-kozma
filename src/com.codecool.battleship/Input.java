@@ -1,15 +1,19 @@
 package com.codecool.battleship;
 
+import com.codecool.battleship.board.Board;
+import com.codecool.battleship.board.Display;
+import com.codecool.battleship.util.SquareStatus;
+
 import java.awt.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import com.codecool.battleship.board.Display;
-import com.codecool.battleship.board.Board;
-import com.codecool.battleship.util.SquareStatus;
 
 public class Input {
 
-    Display display = new Display();
+    Display display;
+    public Input(Display display) {
+        this.display = display;
+    }
 
     public boolean isValid(Board board, Point input) {
         if (input == null) {
@@ -94,4 +98,14 @@ public class Input {
         int x = Integer.parseInt(input.substring(1, input.length())) - 1; // 1 —> 0
         return new Point(x, y);
     }
+
+    public int getBoardSize() {
+        int boardSize = takeInteger("Give us a board size between 10 and 20!");
+        while (!isBetween(boardSize, 10,20)) {
+            display.printMessages("Between 10 and 20!");
+            boardSize = takeInteger("Try again!");
+        }
+        return boardSize;
+    }
+
 }

@@ -1,28 +1,18 @@
 package com.codecool.battleship;
 
 import com.codecool.battleship.board.Display;
+import com.codecool.battleship.controller.Controller;
 
 public class Battleship {
 
     public static void main(String [] args) {
-
         Display display = new Display();
-        // Instantiate a Game
-        Game game = new Game();
+        Input input = new Input(display);
+        Controller controller = new Controller(display, input);
+
         display.printWelcomeArt();
-        game.setBoardSize();
-
-        display.printBoard(game.getBoard());
-        game.setPlayers();
-        while(true) {
-            game.placeShip(1);
-            display.printBoard(game.getBoard());
-        }
-
-
-
-
+        display.printMenu();
+        int userMenuOption = controller.getUserMenuOption();
+        controller.execMenuOption(userMenuOption);
     }
-
-
 }

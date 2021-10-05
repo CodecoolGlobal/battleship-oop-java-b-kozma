@@ -1,7 +1,5 @@
 package com.codecool.battleship.board;
 
-import com.codecool.battleship.Player;
-
 public class Display {
 
     public void printMenu() {

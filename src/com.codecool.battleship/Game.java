@@ -2,48 +2,28 @@ package com.codecool.battleship;
 
 import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
-import com.codecool.battleship.util.SquareStatus;
 
 import java.awt.*;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class Game {
 
-    Board board;
+    private final Display display;
+    private final Input input;
+    private final Board board;
+    private final Player[] players;
 
-    Player[] players = new Player[2];
-
-    Display display = new Display();
-
-    Input input = new Input();
-
-    // GAME STEPS METHODS
+    public Game(Player[] players, int boardSize, Display display, Input input) {
+        this.display = display;
+        this.input = input;
+        this.board = new Board(boardSize);
+        this.players = players;
+    }
 
     public Board getBoard() {return board;}
 
-    public void setBoardSize() {
-        int size = input.takeInteger("Give us a board size between 10 and 20!");
-        while (!input.isBetween(size, 10,20)) {
-            display.printMessages("Between 10 and 20!");
-            size = input.takeInteger("Try again!");
-        }
-        this.board = new Board(size);
+    public void play() {
+        System.out.println("Game is played here");
     }
-
-    public void setPlayers() {
-        players[0] = new Player(
-                input.takeString("Tell us your name, Player 1!"),
-                1);
-
-        players[1] = new Player(
-                input.takeString("Tell us your name, Player 2!"),
-                2);
-
-        System.out.println("Players are all set!\nCaptain " +
-                players[0].getName() + " versus Captain " + players[1].getName());
-    }
-
 
     public void placeShip(int player) {
         Point point = input.takeCoordinates("Give coordinates!");
@@ -55,7 +35,6 @@ public class Game {
             };
         };
     }
-
 
     // This method will naively produce subsequent references to squares based on orientation
     // Validate based on the output of this method
