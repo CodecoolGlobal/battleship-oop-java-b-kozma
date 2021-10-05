@@ -3,8 +3,6 @@ package com.codecool.battleship;
 import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
 
-import java.awt.*;
-
 public class Game {
 
     private final Display display;
@@ -25,22 +23,17 @@ public class Game {
         System.out.println("Game is played here");
         display.printBoard(board);
         // TESTING START
-        placeShip(1);
+        placeShip(1, ShipType.BATTLESHIP);
 
         // TESTING END
     }
 
-    public void placeShip(int player) {
-        Point point = input.takeCoordinates("Give coordinates!");
-        display.printMessages("TESTING: " + point.x + "-" + point.y + " is a well formatted coordinate!");
-        if (input.isValidInput(board, point)) {
-            if (input.isEmpty(board, point)){
-                // Empty HEAD -> [...] coords —> coords vs board —> if all empty —> place ship
-                display.printMessages("Ship Placement should be executed here!");
-                Orientations orientation = input.takeDirection();
-                input.isValidPlacement(board, point, ShipType.BATTLESHIP, orientation);
-            };
-        };
+    public void placeShip(int player, ShipType type) {
+        if (input.isValidPlacement(board, type)) {
+            display.printMessages("[TESTED] The placement passed the tests! The Ship can be made!");
+        } else {
+            display.printMessages("[TESTED] The placemenet failed the test!");
+        }
     }
 
     // TODO
