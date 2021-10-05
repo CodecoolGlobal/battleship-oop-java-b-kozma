@@ -19,13 +19,9 @@ public class Battleship {
         System.out.println("Battleship works");
         Game game = new Game();
         Display display = new Display();
-        Board board = new Board(15);
+        Board board = new Board(10);
+
         display.printBoard(board);
-//        display.printMenu();
-//        Arrays.stream(game.getBoard().getSquareList()).forEach(row -> {
-//            Arrays.stream(row).forEach(square -> System.out.print(square.toString()));
-//            System.out.println("\n");
-//        });
 
     }
 }
