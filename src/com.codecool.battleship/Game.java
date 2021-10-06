@@ -26,11 +26,29 @@ public class Game {
         ShipType[] shipsToPlace = ShipType.values();
         for(ShipType shipType : shipsToPlace) {
             for (int i=0; i < players.length; i++) {
-                System.out.println("Current player is: " + currentPlayer.getName() +"\n" + "Opponent is: " + getOpponent().getName());
-                placeShip(currentPlayer, shipType);
+                display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
+                        + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
+                Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
+                Orientations orientation = input.getUserShipOrientation();
+                while(!currentPlayer.getBoard().isValidPlacement(input, display, shipHeadCoordinates, shipType, orientation)){
+                    shipHeadCoordinates = input.takeCoordinates("You cannot place here!\nGive coordinates!");
+                    orientation = input.getUserShipOrientation();
+                }
+                Ship playerShip = currentPlayer.createShip(shipHeadCoordinates, orientation, shipType);
+                currentPlayer.placeShip(playerShip);
                 display.printBoard(currentPlayer.getBoard());
                 switchPlayer();
             }
+        }
+    }
+
+    private void shootingPhase() {
+        while (getOpponent().isAlive()) {
+            Board opponentBoard = getOpponent().getBoard();
+            Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
+            currentPlayer.shoot(opponentBoard, target);
+            display.printBoard(opponentBoard);
+            switchPlayer();
         }
     }
 
@@ -64,7 +82,7 @@ public class Game {
         Square[] shipCoordinates = createShipCoordinates(square, shipType, orientation);
         Ship ship = new Ship(shipCoordinates);
         player.placeShip(ship);
-    }
+        }
 
 
     // This method will naively produce subsequent references to squares based on orientation
