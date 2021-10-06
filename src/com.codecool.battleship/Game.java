@@ -3,8 +3,6 @@ package com.codecool.battleship;
 import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
 
-import java.awt.*;
-
 public class Game {
 
     private final Display display;
@@ -23,18 +21,22 @@ public class Game {
 
     public void play() {
         System.out.println("Game is played here");
+        display.printBoard(board);
+        // TESTING START
+        placeShip(1, ShipType.BATTLESHIP);
+
+        // TESTING END
     }
 
-    public void placeShip(int player) {
-        Point point = input.takeCoordinates("Give coordinates!");
-        display.printMessages("TESTING: " + point.x + "-" + point.y + " is a well formatted coordinate!");
-        if (input.isValid(board, point)) {
-            if (input.isEmpty(board, point)){
-                // Ship Placement Should be Executed Here!
-                display.printMessages("Ship Placement should be executed here!");
-            };
-        };
+    public void placeShip(int player, ShipType type) {
+        if (input.isValidPlacement(board, type)) {
+            display.printMessages("[TESTED] The placement passed the tests! The Ship can be made!");
+        } else {
+            display.printMessages("[TESTED] The placemenet failed the test!");
+        }
     }
+
+    // TODO
 
     // This method will naively produce subsequent references to squares based on orientation
     // Validate based on the output of this method
