@@ -47,13 +47,16 @@ public class Game {
     }
 
     private void shootingPhase() {
-        while (getOpponent().isAlive()) {
+        while (true) {
             Board opponentBoard = getOpponent().getBoard();
             Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
             currentPlayer.shoot(opponentBoard, target);
+            getOpponent().searchForSunk();
             display.printBoard(opponentBoard, Phase.SHOOTING);
+            if(!getOpponent().isAlive()){break;}
             switchPlayer();
         }
+        display.printMessages(currentPlayer.getName() + " FUCKING WON!!!!!");
     }
 
     private void switchPlayer() {

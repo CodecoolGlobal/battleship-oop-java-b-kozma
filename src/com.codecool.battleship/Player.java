@@ -73,4 +73,9 @@ public class Player {
         opponentBoard.markShot(square);
     }
 
+    public void searchForSunk() {
+        for (Ship ship: ships) {
+            ship.updateShip();
+        }
+    }
 }
