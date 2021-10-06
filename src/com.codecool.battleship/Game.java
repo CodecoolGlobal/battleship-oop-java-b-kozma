@@ -55,7 +55,7 @@ public class Game {
         Board board = player.getBoard();
         Square square = input.takeCoordinates("Give coordinates!", board);
         Orientations orientation = input.getUserShipOrientation();
-        if (input.isValid(board, square) && input.isEmpty(board, square)) {
+        if (input.isValidInput(board, square) && input.isEmpty(board, square)) {
             Square[] shipCoordinates = createShipCoordinates(square, shipType, orientation);
             Ship ship = new Ship(shipCoordinates);
             player.getBoardFactory().manualPlacement(ship);
