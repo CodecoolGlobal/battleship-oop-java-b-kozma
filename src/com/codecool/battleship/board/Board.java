@@ -1,9 +1,7 @@
 package com.codecool.battleship.board;
-
+import com.codecool.battleship.util.SquareStatus;
 import com.codecool.battleship.Input;
 import com.codecool.battleship.util.ShipType;
-import com.codecool.battleship.util.SquareStatus;
-
 import java.util.Arrays;
 
 public class Board {
@@ -21,6 +19,21 @@ public class Board {
 
     public Square getSquare(int xCoordinate, int yCoordinate) {
         return board [xCoordinate][yCoordinate];
+    }
+
+
+
+    public void markShot(Square square) {
+        Square target = getSquare(square.x, square.y);
+        SquareStatus targetStatus = target.getStatus();
+        switch (targetStatus) {
+            case EMPTY:
+                target.setStatus(SquareStatus.MISSED);
+                break;
+            case SHIP:
+                target.setStatus(SquareStatus.HIT);
+                break;
+        }
     }
 
     public boolean isEmpty(Square coordinates) {

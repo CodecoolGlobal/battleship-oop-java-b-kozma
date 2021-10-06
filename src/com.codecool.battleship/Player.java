@@ -21,7 +21,7 @@ public class Player {
 
     public boolean isAlive() {
         // TODO [when Ship and Square are ready, do allMatch() stream on ships and check if all are sunk. ]
-        return false;
+        return true;
     }
 
     public String getName() {return this.name;}
@@ -38,6 +38,7 @@ public class Player {
     public Ship createShip(Square headCoordinates, Orientations orientation, ShipType shipType) {
         int length = shipType.getLength();
         Square[] shipCoordinates = new Square[length];
+        // TODO refactor this, maybe outsource to enum
         int xCoordinate;
         int yCoordinate;
         switch(orientation) {
@@ -62,6 +63,10 @@ public class Player {
 
     public void placeShip(Ship ship) {
         this.boardFactory.manualPlacement(ship);
+    }
+
+    public void shoot(Board opponentBoard, Square square) {
+        opponentBoard.markShot(square);
     }
 
 }
