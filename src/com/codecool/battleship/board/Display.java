@@ -1,5 +1,8 @@
 package com.codecool.battleship.board;
 
+import com.codecool.battleship.Game;
+import com.codecool.battleship.Player;
+
 public class Display {
 
     public void printMenu() {
@@ -7,13 +10,13 @@ public class Display {
     }
 
     public void printWelcomeArt() {
-        System.out.println("__      _____ _    ___ ___  __  __ ___         \n" +
-                "\\ \\    / / __| |  / __/ _ \\|  \\/  | __|        \n" +
-                " \\  ^^  /| _|| |_| (_| (_) | |\\/| | _|         \n" +
-                "  \\_/\\_/ |___|____\\___\\___/|_|  |_|___|        \n" +
-                "               |_   _/ _ \\                     \n" +
-                "                 | || (_) |                    \n" +
-                " ___   _ _____ __|_| \\___/___ ___ _  _ ___ ___ \n" +
+        System.out.println("   __      _____ _    ___ ___  __  __ ___         \n" +
+                "   \\ \\    / / __| |  / __/ _ \\|  \\/  | __|        \n" +
+                "    \\  ^^  /| _|| |_| (_| (_) | |\\/| | _|         \n" +
+                "     \\_/\\_/ |___|____\\___\\___/|_|  |_|___|        \n" +
+                "                |_   _/ _ \\                     \n" +
+                "                  | || (_) |                    \n" +
+                " ___   _ _____ ___|_| \\___/___ ___ _  _ ___ __ \n" +
                 "| _ ) /_\\_   _|_   _| |  | __/ __| || |_ _| _ \\\n" +
                 "| _ \\/ _ \\| |   | | | |__| _|\\__ \\ __ || ||  _/\n" +
                 "|___/_/ \\_\\_|   |_| |____|___|___/_||_|___|_|  ");
@@ -44,24 +47,29 @@ public class Display {
         int size = board.getSquareList().length;
         Square[][] squareList = board.getSquareList();
         System.out.print(" ");
-        for (char i = 'A'; i < 'A' + size ; i++) {
-            System.out.print("  " + i );
+        for (char i = 'A'; i < 'A' + size; i++) {
+            System.out.print("  " + i);
         }
 
         System.out.println();
 
 
-        for (int x = 1; x < size+1; x++) {
+        for (int x = 1; x < size + 1; x++) {
             if (x < 10) {
                 System.out.print(" " + x + " ");
-            }
-            else {
+            } else {
                 System.out.print(x + " ");
             }
             for (int y = 0; y < size; y++) {
-                System.out.print("" + squareList[x-1][y].getStatus().getCharacter() + "  ");
+                System.out.print("" + squareList[x - 1][y].getStatus().getCharacter() + "  ");
             }
             System.out.println();
         }
     }
+
+    // if phase is shooting enemy placement board = myShooting board.
+    // if enemySquareStatus == ship -> myShootingSquare show empty
+    // if enemySquareStatus == hit -> show hit
+    // if missed -> missed
+    // sunk -> sunk.
 }
