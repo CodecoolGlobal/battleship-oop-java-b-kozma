@@ -2,8 +2,10 @@ package com.codecool.battleship;
 
 import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
+import com.codecool.battleship.util.SquareStatus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Player {
@@ -20,8 +22,9 @@ public class Player {
     }
 
     public boolean isAlive() {
-        // TODO [when Ship and Square are ready, do allMatch() stream on ships and check if all are sunk. ]
-        return true;
+        // [when Ship and Square are ready, do allMatch() stream on ships and check if all are sunk. ]
+        return ships.stream().allMatch(ship -> Arrays.stream(ship.getShipCoordinates()).allMatch(
+                square -> square.getStatus() == SquareStatus.SUNK));
     }
 
     public String getName() {return this.name;}
