@@ -3,6 +3,8 @@ package com.codecool.battleship;
 import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
 
+import java.util.Arrays;
+
 public class Game {
 
     private final Display display;
@@ -19,11 +21,13 @@ public class Game {
 
     public void play() {
         placementPhase();
+        display.printMessages("[TESTING] Placement Phase Ended");
+        shootingPhase();
     }
 
     private void placementPhase() {
         // NOTE this is only valid if we can want to place one of each ship
-        ShipType[] shipsToPlace = ShipType.values();
+        ShipType[] shipsToPlace = new ShipType[] {ShipType.CARRIER, ShipType.CRUISER};
         for (ShipType shipType : shipsToPlace) {
             for (int i = 0; i < players.length; i++) {
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"

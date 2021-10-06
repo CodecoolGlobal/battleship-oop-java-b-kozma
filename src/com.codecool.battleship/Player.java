@@ -23,8 +23,8 @@ public class Player {
 
     public boolean isAlive() {
         // [when Ship and Square are ready, do allMatch() stream on ships and check if all are sunk. ]
-        return ships.stream().allMatch(ship -> Arrays.stream(ship.getShipCoordinates()).allMatch(
-                square -> square.getStatus() == SquareStatus.SUNK));
+        return !(ships.stream().allMatch(ship -> Arrays.stream(ship.getShipCoordinates()).allMatch(
+                square -> square.getStatus() == SquareStatus.SUNK)));
     }
 
     public String getName() {return this.name;}
@@ -66,6 +66,7 @@ public class Player {
 
     public void placeShip(Ship ship) {
         this.boardFactory.manualPlacement(ship);
+        ships.add(ship);
     }
 
     public void shoot(Board opponentBoard, Square square) {
