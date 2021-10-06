@@ -3,6 +3,8 @@ package com.codecool.battleship;
 import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
 
+import java.util.Arrays;
+
 public class Game {
 
     private final Display display;
@@ -19,11 +21,13 @@ public class Game {
 
     public void play() {
         placementPhase();
+        display.printMessages("[TESTING] Placement Phase Ended");
+        shootingPhase();
     }
 
     private void placementPhase() {
         // NOTE this is only valid if we can want to place one of each ship
-        ShipType[] shipsToPlace = ShipType.values();
+        ShipType[] shipsToPlace = new ShipType[] {ShipType.CARRIER, ShipType.CRUISER};
         for (ShipType shipType : shipsToPlace) {
             for (int i = 0; i < players.length; i++) {
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
@@ -43,13 +47,16 @@ public class Game {
     }
 
     private void shootingPhase() {
-        while (getOpponent().isAlive()) {
+        while (true) {
             Board opponentBoard = getOpponent().getBoard();
             Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
             currentPlayer.shoot(opponentBoard, target);
+            getOpponent().searchForSunk();
             display.printBoard(opponentBoard, Phase.SHOOTING);
+            if(!getOpponent().isAlive()){break;}
             switchPlayer();
         }
+        display.printMessages(currentPlayer.getName() + " FUCKING WON!!!!!");
     }
 
     private void switchPlayer() {
