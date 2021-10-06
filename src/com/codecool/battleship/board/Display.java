@@ -39,8 +39,8 @@ public class Display {
     }
 
     public void gameRules () {
-        System.out.println("The object of Battleship is to try and sink all of the other player's before " +
-                "they sink all of your ships. All of the other player's ships are somewhere on his/her board. " +
+        System.out.println("The object of Battleship is to try and sink all of the other player's before \n" +
+                "they sink all of your ships. All of the other player's ships are somewhere on his/her board. \n" +
                 "You try and hit them by calling out the coordinates of one of the squares on the board.");
     }
 
