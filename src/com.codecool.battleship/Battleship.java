@@ -9,10 +9,12 @@ public class Battleship {
         Display display = new Display();
         Input input = new Input(display);
         GameSetup gameSetup = new GameSetup(display, input);
-
         display.printWelcomeArt();
+
+
         display.printMenu();
         int userMenuOption = gameSetup.getUserMenuOption();
         gameSetup.execMenuOption(userMenuOption);
     }
 }
+
