@@ -31,6 +31,10 @@ public class Game {
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
                 Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
                 Orientations orientation = input.getUserShipOrientation();
+                while(!currentPlayer.getBoard().isValidPlacement(input, display, shipHeadCoordinates, shipType, orientation)){
+                    shipHeadCoordinates = input.takeCoordinates("You cannot place here!\nGive coordinates!");
+                    orientation = input.getUserShipOrientation();
+                }
                 Ship playerShip = currentPlayer.createShip(shipHeadCoordinates, orientation, shipType);
                 currentPlayer.placeShip(playerShip);
                 display.printBoard(currentPlayer.getBoard());
