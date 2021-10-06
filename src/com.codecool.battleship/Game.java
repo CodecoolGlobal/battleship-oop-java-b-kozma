@@ -24,13 +24,13 @@ public class Game {
     private void placementPhase() {
         // NOTE this is only valid if we can want to place one of each ship
         ShipType[] shipsToPlace = ShipType.values();
-        for(ShipType shipType : shipsToPlace) {
-            for (int i=0; i < players.length; i++) {
+        for (ShipType shipType : shipsToPlace) {
+            for (int i = 0; i < players.length; i++) {
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
                 Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
                 Orientations orientation = input.getUserShipOrientation();
-                while(!currentPlayer.getBoard().isValidPlacement(input, display, shipHeadCoordinates, shipType, orientation)){
+                while (!currentPlayer.getBoard().isValidPlacement(input, display, shipHeadCoordinates, shipType, orientation)) {
                     shipHeadCoordinates = input.takeCoordinates("You cannot place here!\nGive coordinates!");
                     orientation = input.getUserShipOrientation();
                 }
@@ -53,7 +53,7 @@ public class Game {
     }
 
     private void switchPlayer() {
-        if(currentPlayer == players[0]) {
+        if (currentPlayer == players[0]) {
             currentPlayer = players[1];
         } else {
             currentPlayer = players[0];
@@ -61,58 +61,10 @@ public class Game {
     }
 
     private Player getOpponent() {
-        if(currentPlayer == players[0]) {
+        if (currentPlayer == players[0]) {
             return players[1];
         } else {
             return players[0];
         }
-    }
-
-    public void placeShip(Player player, ShipType shipType) {
-        display.printMessages("Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
-        Board board = player.getBoard();
-        Square square = input.takeCoordinates("Give coordinates!");
-        Orientations orientation = input.getUserShipOrientation();
-        // Validation Starts
-        while (!board.isValidPlacement(input, display, square, shipType, orientation)){
-            square = input.takeCoordinates("You cannot put a ship there!\nGive new coordinates!");
-            orientation = input.getUserShipOrientation();
-        }
-        // Validation Ends
-        Square[] shipCoordinates = createShipCoordinates(square, shipType, orientation);
-        Ship ship = new Ship(shipCoordinates);
-        player.placeShip(ship);
-        }
-
-
-    // This method will naively produce subsequent references to squares based on orientation
-    // Validate based on the output of this method
-    // and DO NOT instantiate ship with the output if ANY of the squares are invalid
-    // (i.e.: out of bounds or neighbouring or occupied)
-    // Possibly move this to board
-    private Square[] createShipCoordinates(Square headCoordinates, ShipType shipType, Orientations orientation) {
-        int length = shipType.getLength();
-        Square[] shipCoordinates = new Square[length];
-        int xCoordinate;
-        int yCoordinate;
-        switch(orientation) {
-            // Place ship squares to the right (east) of ship's head
-            case HORIZONTAL:
-                xCoordinate = Directions.EAST.getDirection().x;
-                yCoordinate = Directions.EAST.getDirection().y;
-                break;
-            // Place ship squares to the down (south) of ship's head
-            case VERTICAL:
-                xCoordinate = Directions.SOUTH.getDirection().x;
-                yCoordinate = Directions.SOUTH.getDirection().y;
-                break;
-            default:
-                throw new IllegalArgumentException("Orientation must either be HORIZONTAL or VERTICAL");
-        }
-        shipCoordinates[0] = currentPlayer.getBoard().getSquareList()[headCoordinates.x][headCoordinates.y];
-        for (int i = 1; i < length; i++) {
-            shipCoordinates[i] = currentPlayer.getBoard().getSquare(headCoordinates.x + i * xCoordinate, headCoordinates.y + i * yCoordinate);
-        }
-        return shipCoordinates;
     }
 }
