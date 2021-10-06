@@ -37,7 +37,7 @@ public class Game {
                 }
                 Ship playerShip = currentPlayer.createShip(shipHeadCoordinates, orientation, shipType);
                 currentPlayer.placeShip(playerShip);
-                display.printBoard(currentPlayer.getBoard());
+                display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
                 switchPlayer();
             }
         }
@@ -48,7 +48,7 @@ public class Game {
             Board opponentBoard = getOpponent().getBoard();
             Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
             currentPlayer.shoot(opponentBoard, target);
-            display.printBoard(opponentBoard);
+            display.printBoard(opponentBoard, Phase.SHOOTING);
             switchPlayer();
         }
     }
