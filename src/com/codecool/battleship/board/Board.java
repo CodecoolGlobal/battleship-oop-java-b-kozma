@@ -3,6 +3,7 @@ package com.codecool.battleship.board;
 import com.codecool.battleship.Input;
 import com.codecool.battleship.util.ShipType;
 import com.codecool.battleship.util.SquareStatus;
+import java.util.ArrayList;
 
 import java.util.Arrays;
 
@@ -62,17 +63,17 @@ public class Board {
     }
 
     public boolean isAllEmpty(Square input, int length, Directions direction) {
-        Square[] result = new Square[length];
+        ArrayList<Square> result = new ArrayList<Square>();
         if (direction == Directions.EAST){
             for (int i = 0; i < length; i++) {
-                result[i] = getSquare(input.x, input.y+i);
+                result.add(getSquare(input.x, input.y+i));
             }
         } else if (direction == Directions.SOUTH){
             for (int i = 0; i < length; i++) {
-                result[i] = getSquare(input.x+i, input.y);
+                result.add(getSquare(input.x+i, input.y));
             }
         }
-        return Arrays.stream(result).allMatch(square -> square.getStatus() == SquareStatus.EMPTY);
+        return result.stream().allMatch(square -> square.getStatus() == SquareStatus.EMPTY);
     }
 
     public boolean isValidPlacement(Input input, Display display, Square square, ShipType shipType, Orientations orientation) {
