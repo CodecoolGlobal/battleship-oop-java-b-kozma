@@ -65,11 +65,11 @@ public class Board {
         Square[] result = new Square[length];
         if (direction == Directions.EAST){
             for (int i = 0; i < length; i++) {
-                result[i] = getSquare(input.x, input.y+1);
+                result[i] = getSquare(input.x, input.y+i);
             }
         } else if (direction == Directions.SOUTH){
             for (int i = 0; i < length; i++) {
-                result[i] = getSquare(input.x+1, input.y);
+                result[i] = getSquare(input.x+i, input.y);
             }
         }
         return Arrays.stream(result).allMatch(square -> square.getStatus() == SquareStatus.EMPTY);
