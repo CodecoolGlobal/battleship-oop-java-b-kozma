@@ -1,8 +1,7 @@
 package com.codecool.battleship;
 
-import com.codecool.battleship.board.Board;
-import com.codecool.battleship.board.BoardFactory;
-import com.codecool.battleship.board.Ship;
+import com.codecool.battleship.board.*;
+import com.codecool.battleship.util.ShipType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +30,38 @@ public class Player {
         return this.board;
     }
 
-    public BoardFactory getBoardFactory() {
-        return this.boardFactory;
+    // This method will naively produce subsequent references to squares based on orientation
+    // Validate based on the output of this method
+    // and DO NOT instantiate ship with the output if ANY of the squares are invalid
+    // (i.e.: out of bounds or neighbouring or occupied)
+    // Possibly move this to board
+    public Ship createShip(Square headCoordinates, Orientations orientation, ShipType shipType) {
+        int length = shipType.getLength();
+        Square[] shipCoordinates = new Square[length];
+        int xCoordinate;
+        int yCoordinate;
+        switch(orientation) {
+            // Place ship squares to the right (east) of ship's head
+            case HORIZONTAL:
+                xCoordinate = Directions.EAST.getDirection().x;
+                yCoordinate = Directions.EAST.getDirection().y;
+                break;
+            // Place ship squares to the down (south) of ship's head
+            case VERTICAL:
+                xCoordinate = Directions.SOUTH.getDirection().x;
+                yCoordinate = Directions.SOUTH.getDirection().y;
+                break;
+            default:
+                throw new IllegalArgumentException("Orientation must either be HORIZONTAL or VERTICAL");
+        }
+        for (int i = 0; i < length; i++) {
+            shipCoordinates[i] = this.board.getSquare(headCoordinates.x + i * xCoordinate, headCoordinates.y + i * yCoordinate);
+        }
+        return new Ship(shipCoordinates);
+    }
+
+    public void placeShip(Ship ship) {
+        this.boardFactory.manualPlacement(ship);
     }
 
 }

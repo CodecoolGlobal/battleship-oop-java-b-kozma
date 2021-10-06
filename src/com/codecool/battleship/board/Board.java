@@ -1,5 +1,6 @@
 package com.codecool.battleship.board;
 
+import com.codecool.battleship.Input;
 import com.codecool.battleship.util.ShipType;
 import com.codecool.battleship.util.SquareStatus;
 
@@ -52,8 +53,15 @@ public class Board {
         return false;
     }
 
-    public boolean isChoicePossible(Square point) {
+    public boolean isValidSquare(Square point) {
         return (!isOutOfBounds(point) && isEmpty(point));
+    }
+
+    public boolean isValidPlacement(Input input, Display display, Square square, ShipType shipType, Orientations orientation) {
+        boolean isValidInput = input.isValidInput(square);
+        boolean isValidSquare = isValidInput && isValidSquare(square);
+        boolean tryShip = isValidSquare && tryShip(square, shipType, orientation);
+        return tryShip;
     }
 
 }

@@ -27,7 +27,6 @@ public class Game {
         for(ShipType shipType : shipsToPlace) {
             for (int i=0; i < players.length; i++) {
                 System.out.println("Current player is: " + currentPlayer.getName() +"\n" + "Opponent is: " + getOpponent().getName());
-
                 placeShip(currentPlayer, shipType);
                 display.printBoard(currentPlayer.getBoard());
                 switchPlayer();
@@ -55,23 +54,16 @@ public class Game {
         display.printMessages("Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
         Board board = player.getBoard();
         Square square = input.takeCoordinates("Give coordinates!");
+        Orientations orientation = input.getUserShipOrientation();
         // Validation Starts
-        boolean isValidInput = input.isValidInput(square);
-        boolean isChoicePossible = isValidInput && board.isChoicePossible(square);
-        Orientations orientation = isChoicePossible ? input.getUserShipOrientation() : null;
-        boolean tryShip = isChoicePossible && board.tryShip(square, shipType, orientation);
-        while (!(isValidInput && isChoicePossible && tryShip)){
-            display.printMessages("You cannot place a ship here!");
-            square = input.takeCoordinates("Give coordinates again!");
-            isValidInput = input.isValidInput(square);
-            isChoicePossible = isValidInput && board.isChoicePossible(square);
-            orientation = isChoicePossible ? input.getUserShipOrientation() : null;
-            tryShip = isChoicePossible && board.tryShip(square, shipType, orientation);
+        while (!board.isValidPlacement(input, display, square, shipType, orientation)){
+            square = input.takeCoordinates("Give new coordinates!");
+            orientation = input.getUserShipOrientation();
         }
         // Validation Ends
         Square[] shipCoordinates = createShipCoordinates(square, shipType, orientation);
         Ship ship = new Ship(shipCoordinates);
-        player.getBoardFactory().manualPlacement(ship);
+        player.placeShip(ship);
         }
 
 
