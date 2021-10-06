@@ -1,5 +1,7 @@
 package com.codecool.battleship.board;
 
+import com.codecool.battleship.util.SquareStatus;
+
 public class Board {
     private final Square[][] board;
     public Board(int size) {
@@ -15,6 +17,21 @@ public class Board {
 
     public Square getSquare(int xCoordinate, int yCoordinate) {
         return board [xCoordinate][yCoordinate];
+    }
+
+
+
+    public void markShot(Square square) {
+        Square target = getSquare(square.x, square.y);
+        SquareStatus targetStatus = target.getStatus();
+        switch (targetStatus) {
+            case EMPTY:
+                target.setStatus(SquareStatus.MISSED);
+                break;
+            case SHIP:
+                target.setStatus(SquareStatus.HIT);
+                break;
+        }
     }
 
 }

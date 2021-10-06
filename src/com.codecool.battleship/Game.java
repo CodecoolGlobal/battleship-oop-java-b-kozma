@@ -19,6 +19,7 @@ public class Game {
 
     public void play() {
         placementPhase();
+        shootingPhase();
     }
 
     private void placementPhase() {
@@ -28,13 +29,23 @@ public class Game {
             for (int i=0; i < players.length; i++) {
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
-                Square square = input.takeCoordinates("Give coordinates!");
+                Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
                 Orientations orientation = input.getUserShipOrientation();
-                Ship playerShip = currentPlayer.createShip(square, orientation, shipType);
+                Ship playerShip = currentPlayer.createShip(shipHeadCoordinates, orientation, shipType);
                 currentPlayer.placeShip(playerShip);
                 display.printBoard(currentPlayer.getBoard());
                 switchPlayer();
             }
+        }
+    }
+
+    private void shootingPhase() {
+        while (getOpponent().isAlive()) {
+            Board opponentBoard = getOpponent().getBoard();
+            Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
+            currentPlayer.shoot(opponentBoard, target);
+            display.printBoard(opponentBoard);
+            switchPlayer();
         }
     }
 
