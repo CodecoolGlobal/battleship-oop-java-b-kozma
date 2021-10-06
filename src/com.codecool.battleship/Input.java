@@ -109,6 +109,7 @@ public class Input {
         return orientation;
     }
 
+    /* Coordinates taking -- OUT OF USE!
     public Square takeCoordinates(String message, Board board) {
         String input = takeString(message);
         while (!isValidFormat(input)) {
@@ -118,6 +119,7 @@ public class Input {
         int x = Integer.parseInt(input.substring(1)) - 1; // 1 —> 0
         return board.getSquare(x, y);
     }
+    */
 
     public int getBoardSize() {
         int boardSize = takeInteger("Give us a board size between 10 and 20!");
@@ -128,6 +130,7 @@ public class Input {
         return boardSize;
     }
 
+    /* INPUT METHOD taking orientation from the user -- OUT OF USE!
     public Orientations takeDirection(){
         int input = takeInteger("Press 0 for horizontal, and 1 for vertical.");
         while(input != Orientations.HORIZONTAL.getValue() && input != Orientations.VERTICAL.getValue()) {
@@ -137,5 +140,6 @@ public class Input {
         if (input == Orientations.HORIZONTAL.getValue()) {return Orientations.HORIZONTAL;}
         else {return Orientations.VERTICAL;}
     }
+     */
 
 }

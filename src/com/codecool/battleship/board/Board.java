@@ -4,6 +4,8 @@ import com.codecool.battleship.Input;
 import com.codecool.battleship.util.ShipType;
 import com.codecool.battleship.util.SquareStatus;
 
+import java.util.Arrays;
+
 public class Board {
     private final Square[][] board;
     public Board(int size) {
@@ -42,19 +44,35 @@ public class Board {
         if (orientation == Orientations.HORIZONTAL){
             if ((input.y + shipLength - 1) >= boardLength) {
                 return false;
-            }
-            return true;
+            } else if (!isAllEmpty(input, shipLength, Directions.EAST)) {
+                return false;
+            } else {return true;}
         } else if (orientation == Orientations.VERTICAL){
             if ((input.x + shipLength - 1) >= boardLength) {
                 return false;
-            }
-            return true;
+            } else if (!isAllEmpty(input, shipLength, Directions.SOUTH)) {
+                return false;
+            } else {return true;}
         }
         return false;
     }
 
     public boolean isValidSquare(Square point) {
         return (!isOutOfBounds(point) && isEmpty(point));
+    }
+
+    public boolean isAllEmpty(Square input, int length, Directions direction) {
+        Square[] result = new Square[length];
+        if (direction == Directions.EAST){
+            for (int i = 0; i < length; i++) {
+                result[i] = getSquare(input.x, input.y+1);
+            }
+        } else if (direction == Directions.SOUTH){
+            for (int i = 0; i < length; i++) {
+                result[i] = getSquare(input.x+1, input.y);
+            }
+        }
+        return Arrays.stream(result).allMatch(square -> square.getStatus() == SquareStatus.EMPTY);
     }
 
     public boolean isValidPlacement(Input input, Display display, Square square, ShipType shipType, Orientations orientation) {

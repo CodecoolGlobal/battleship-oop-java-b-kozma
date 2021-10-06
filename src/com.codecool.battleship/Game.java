@@ -57,7 +57,7 @@ public class Game {
         Orientations orientation = input.getUserShipOrientation();
         // Validation Starts
         while (!board.isValidPlacement(input, display, square, shipType, orientation)){
-            square = input.takeCoordinates("Give new coordinates!");
+            square = input.takeCoordinates("You cannot put a ship there!\nGive new coordinates!");
             orientation = input.getUserShipOrientation();
         }
         // Validation Ends
