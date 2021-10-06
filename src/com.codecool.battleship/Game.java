@@ -19,19 +19,18 @@ public class Game {
 
     public void play() {
         placementPhase();
-        shootingPhase();
     }
 
     private void placementPhase() {
         // NOTE this is only valid if we can want to place one of each ship
         ShipType[] shipsToPlace = ShipType.values();
-        for(ShipType shipType : shipsToPlace) {
-            for (int i=0; i < players.length; i++) {
+        for (ShipType shipType : shipsToPlace) {
+            for (int i = 0; i < players.length; i++) {
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
                 Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
                 Orientations orientation = input.getUserShipOrientation();
-                while(!currentPlayer.getBoard().isValidPlacement(input, display, shipHeadCoordinates, shipType, orientation)){
+                while (!currentPlayer.getBoard().isValidPlacement(input, display, shipHeadCoordinates, shipType, orientation)) {
                     shipHeadCoordinates = input.takeCoordinates("You cannot place here!\nGive coordinates!");
                     orientation = input.getUserShipOrientation();
                 }
@@ -54,7 +53,7 @@ public class Game {
     }
 
     private void switchPlayer() {
-        if(currentPlayer == players[0]) {
+        if (currentPlayer == players[0]) {
             currentPlayer = players[1];
         } else {
             currentPlayer = players[0];
@@ -62,7 +61,7 @@ public class Game {
     }
 
     private Player getOpponent() {
-        if(currentPlayer == players[0]) {
+        if (currentPlayer == players[0]) {
             return players[1];
         } else {
             return players[0];
