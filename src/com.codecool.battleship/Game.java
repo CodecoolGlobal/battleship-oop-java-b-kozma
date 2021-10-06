@@ -64,7 +64,7 @@ public class Game {
         Square[] shipCoordinates = createShipCoordinates(square, shipType, orientation);
         Ship ship = new Ship(shipCoordinates);
         player.placeShip(ship);
-        }
+    }
 
 
     // This method will naively produce subsequent references to squares based on orientation

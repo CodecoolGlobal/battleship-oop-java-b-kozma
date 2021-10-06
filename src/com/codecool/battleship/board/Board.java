@@ -67,10 +67,20 @@ public class Board {
         if (direction == Directions.EAST){
             for (int i = 0; i < length; i++) {
                 result.add(getSquare(input.x, input.y+i));
+                if (i > 0 && i < length - 1 && input.x > 0) {
+                    result.add(getSquare(input.x - 1, input.y + i));
+                } else if (i > 0 && i < length - 1 && input.x < board.length-1) {
+                    result.add(getSquare(input.x+1, input.y+i));
+                }
             }
         } else if (direction == Directions.SOUTH){
             for (int i = 0; i < length; i++) {
                 result.add(getSquare(input.x+i, input.y));
+                if (i > 0 && i < length - 1 && input.y > 0) {
+                    result.add(getSquare(input.x+i, input.y - 1));
+                } else if (i > 0 && i < length - 1 && input.y < board.length-1) {
+                    result.add(getSquare(input.x+i, input.y + 1));
+                }
             }
         }
         return result.stream().allMatch(square -> square.getStatus() == SquareStatus.EMPTY);
