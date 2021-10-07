@@ -22,6 +22,18 @@ public class Game {
         shootingPhase();
     }
 
+    private ShipConfig getUserShipConfig(ShipType shipType) {
+        Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
+        Orientations orientation = input.getUserShipOrientation();
+        ShipConfig shipConfig = new ShipConfig(shipHeadCoordinates, orientation, shipType);
+        while(!currentPlayer.getBoard().isValidPlacement(input, shipConfig)) {
+            shipHeadCoordinates = input.takeCoordinates("You cannot place here!\nGive coordinates!");
+            orientation = input.getUserShipOrientation();
+            shipConfig = new ShipConfig(shipHeadCoordinates, orientation, shipType);
+        }
+        return shipConfig;
+    }
+
     private void placementPhase() {
         // NOTE this is only valid if we can want to place one of each ship
         ShipType[] shipsToPlace = ShipType.values();
@@ -29,13 +41,8 @@ public class Game {
             for (int i=0; i < players.length; i++) {
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
-                Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
-                Orientations orientation = input.getUserShipOrientation();
-                while(!currentPlayer.getBoard().isValidPlacement(input, display, shipHeadCoordinates, shipType, orientation)){
-                    shipHeadCoordinates = input.takeCoordinates("You cannot place here!\nGive coordinates!");
-                    orientation = input.getUserShipOrientation();
-                }
-                Ship playerShip = currentPlayer.createShip(shipHeadCoordinates, orientation, shipType);
+                ShipConfig shipConfig = getUserShipConfig(shipType);
+                Ship playerShip = currentPlayer.createShip(shipConfig);
                 currentPlayer.placeShip(playerShip);
                 display.printBoard(currentPlayer.getBoard());
                 switchPlayer();
