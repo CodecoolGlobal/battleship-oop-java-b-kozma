@@ -32,6 +32,7 @@ public class Game {
             for (int i = 0; i < players.length; i++) {
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
+                display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
                 Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
                 Orientations orientation = input.getUserShipOrientation();
                 while (!currentPlayer.getBoard().isValidPlacement(input, display, shipHeadCoordinates, shipType, orientation)) {
@@ -41,6 +42,11 @@ public class Game {
                 Ship playerShip = currentPlayer.createShip(shipHeadCoordinates, orientation, shipType);
                 currentPlayer.placeShip(playerShip);
                 display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 switchPlayer();
             }
         }
@@ -48,12 +54,19 @@ public class Game {
 
     private void shootingPhase() {
         while (true) {
+            display.printMessages("It's " + currentPlayer.getName() + "'s turn");
             Board opponentBoard = getOpponent().getBoard();
+            display.printBoard(getOpponent().getBoard(), Phase.SHOOTING);
             Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
             currentPlayer.shoot(opponentBoard, target);
             getOpponent().searchForSunk();
             display.printBoard(opponentBoard, Phase.SHOOTING);
             if(!getOpponent().isAlive()){break;}
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             switchPlayer();
         }
         display.printMessages(currentPlayer.getName() + " FUCKING WON!!!!!");
