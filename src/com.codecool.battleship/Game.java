@@ -37,7 +37,7 @@ public class Game {
     private void placementPhase() {
         // NOTE this is only valid if we can want to place one of each ship
         //ShipType[] shipsToPlace = ShipType.values();
-        ShipType[] shipsToPlace = {ShipType.CARRIER, ShipType.CRUISER};
+        ShipType[] shipsToPlace = {ShipType.CARRIER, ShipType.CRUISER, ShipType.BATTLESHIP};
         for(ShipType shipType : shipsToPlace) {
             for (int i=0; i < players.length; i++) {
                 display.clearConsole();
@@ -66,6 +66,10 @@ public class Game {
             Board opponentBoard = getOpponent().getBoard();
             display.printBoard(getOpponent().getBoard(), Phase.SHOOTING);
             Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
+            while(opponentBoard.isOutOfBounds(target) || opponentBoard.alreadyGuessed(target)) {
+                display.printMessages("Wrong move! Try again!");
+                target = input.takeCoordinates("Please select coordinates to shoot at!\n");
+            }
             currentPlayer.shoot(opponentBoard, target);
             getOpponent().searchForSunk();
             display.clearConsole();
