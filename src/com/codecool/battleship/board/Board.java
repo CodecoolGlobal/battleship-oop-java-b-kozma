@@ -107,4 +107,10 @@ public class Board {
         return isValidSquare && tryShip(shipconfig);
     }
 
+    public boolean alreadyGuessed(Square square) {
+        return board[square.x][square.y].getStatus() == SquareStatus.MISSED ||
+                board[square.x][square.y].getStatus() == SquareStatus.SUNK ||
+                board[square.x][square.y].getStatus() == SquareStatus.HIT;
+    }
+
 }

@@ -66,6 +66,10 @@ public class Game {
             Board opponentBoard = getOpponent().getBoard();
             display.printBoard(getOpponent().getBoard(), Phase.SHOOTING);
             Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
+            while(opponentBoard.isOutOfBounds(target) || opponentBoard.alreadyGuessed(target)) {
+                display.printMessages("Wrong move! Try again!");
+                target = input.takeCoordinates("Please select coordinates to shoot at!\n");
+            }
             currentPlayer.shoot(opponentBoard, target);
             getOpponent().searchForSunk();
             display.clearConsole();
