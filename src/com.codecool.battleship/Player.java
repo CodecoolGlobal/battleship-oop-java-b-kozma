@@ -1,9 +1,12 @@
 package com.codecool.battleship;
 
 import com.codecool.battleship.board.*;
+import com.codecool.battleship.util.ShipType;
+import com.codecool.battleship.util.SquareStatus;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Player {
@@ -20,8 +23,9 @@ public class Player {
     }
 
     public boolean isAlive() {
-        // TODO [when Ship and Square are ready, do allMatch() stream on ships and check if all are sunk. ]
-        return true;
+        // [when Ship and Square are ready, do allMatch() stream on ships and check if all are sunk. ]
+        return !(ships.stream().allMatch(ship -> Arrays.stream(ship.getShipCoordinates()).allMatch(
+                square -> square.getStatus() == SquareStatus.SUNK)));
     }
 
     public String getName() {return this.name;}
@@ -58,10 +62,16 @@ public class Player {
 
     public void placeShip(Ship ship) {
         this.boardFactory.manualPlacement(ship);
+        ships.add(ship);
     }
 
     public void shoot(Board opponentBoard, Square square) {
         opponentBoard.markShot(square);
     }
 
+    public void searchForSunk() {
+        for (Ship ship: ships) {
+            ship.updateShip();
+        }
+    }
 }

@@ -1,9 +1,8 @@
 package com.codecool.battleship.board;
-
 import com.codecool.battleship.Input;
 import com.codecool.battleship.util.SquareStatus;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Board {
     private final Square[][] board;
@@ -64,17 +63,41 @@ public class Board {
     }
 
     public boolean isAllEmpty(Square input, int length, Directions direction) {
-        Square[] result = new Square[length];
+        ArrayList<Square> result = new ArrayList<>();
         if (direction == Directions.EAST){
             for (int i = 0; i < length; i++) {
-                result[i] = getSquare(input.x, input.y+i);
+                result.add(getSquare(input.x, input.y+i));
+                if (i == 0 && input.y > 0) {
+                    result.add(getSquare(input.x, input.y-1));
+                }
+                if ((i == length -1) && input.y < board.length-1) {
+                    result.add(getSquare(input.x, input.y+i+1));
+                }
+                if (input.x > 0) {
+                    result.add(getSquare(input.x - 1, input.y + i));
+                }
+                if (input.x < board.length-1) {
+                    result.add(getSquare(input.x+1, input.y+i));
+                }
             }
-        } else if (direction == Directions.SOUTH) {
+        } else if (direction == Directions.SOUTH){
             for (int i = 0; i < length; i++) {
-                result[i] = getSquare(input.x+i, input.y);
+                result.add(getSquare(input.x+i, input.y));
+                if (i == 0 && input.x > 0) {
+                    result.add(getSquare(input.x-1, input.y));
+                }
+                if ((i == length -1) && input.x < board.length-1) {
+                    result.add(getSquare(input.x+i+1, input.y));
+                }
+                if (input.y > 0) {
+                    result.add(getSquare(input.x+i, input.y - 1));
+                }
+                if (input.y < board.length-1) {
+                    result.add(getSquare(input.x+i, input.y + 1));
+                }
             }
         }
-        return Arrays.stream(result).allMatch(square -> square.getStatus() == SquareStatus.EMPTY);
+        return result.stream().allMatch(square -> square.getStatus() == SquareStatus.EMPTY);
     }
 
     public boolean isValidPlacement(Input input, ShipConfig shipconfig) {

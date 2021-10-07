@@ -39,29 +39,48 @@ public class Game {
         ShipType[] shipsToPlace = ShipType.values();
         for(ShipType shipType : shipsToPlace) {
             for (int i=0; i < players.length; i++) {
+                display.clearConsole();
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
                 ShipConfig shipConfig = getUserShipConfig(shipType);
                 Ship playerShip = currentPlayer.createShip(shipConfig);
                 currentPlayer.placeShip(playerShip);
-                display.printBoard(currentPlayer.getBoard());
+                display.clearConsole();
+                display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 switchPlayer();
             }
         }
     }
 
     private void shootingPhase() {
-        while (getOpponent().isAlive()) {
+        while (true) {
+            display.clearConsole();
+            display.printMessages("It's " + currentPlayer.getName() + "'s turn");
             Board opponentBoard = getOpponent().getBoard();
+            display.printBoard(getOpponent().getBoard(), Phase.SHOOTING);
             Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
             currentPlayer.shoot(opponentBoard, target);
-            display.printBoard(opponentBoard);
+            getOpponent().searchForSunk();
+            display.clearConsole();
+            display.printBoard(opponentBoard, Phase.SHOOTING);
+            if(!getOpponent().isAlive()){break;}
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             switchPlayer();
         }
+        display.printMessages(currentPlayer.getName() + " WON!!!!!");
     }
 
     private void switchPlayer() {
-        if(currentPlayer == players[0]) {
+        if (currentPlayer == players[0]) {
             currentPlayer = players[1];
         } else {
             currentPlayer = players[0];
@@ -69,7 +88,7 @@ public class Game {
     }
 
     private Player getOpponent() {
-        if(currentPlayer == players[0]) {
+        if (currentPlayer == players[0]) {
             return players[1];
         } else {
             return players[0];
