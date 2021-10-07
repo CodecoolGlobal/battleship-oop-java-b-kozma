@@ -4,6 +4,7 @@ import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
 import com.codecool.battleship.util.SquareStatus;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,33 +34,28 @@ public class Player {
         return this.board;
     }
 
-    // This method will naively produce subsequent references to squares based on orientation
-    // Validate based on the output of this method
-    // and DO NOT instantiate ship with the output if ANY of the squares are invalid
-    // (i.e.: out of bounds or neighbouring or occupied)
-    // Possibly move this to board
-    public Ship createShip(Square headCoordinates, Orientations orientation, ShipType shipType) {
-        int length = shipType.getLength();
-        Square[] shipCoordinates = new Square[length];
-        // TODO refactor this, maybe outsource to enum
-        int xCoordinate;
-        int yCoordinate;
+    private Point getPlacementDirectionCoordinates(Orientations orientation) {
         switch(orientation) {
             // Place ship squares to the right (east) of ship's head
             case HORIZONTAL:
-                xCoordinate = Directions.EAST.getDirection().x;
-                yCoordinate = Directions.EAST.getDirection().y;
-                break;
+                return Directions.EAST.getDirection();
             // Place ship squares to the down (south) of ship's head
             case VERTICAL:
-                xCoordinate = Directions.SOUTH.getDirection().x;
-                yCoordinate = Directions.SOUTH.getDirection().y;
-                break;
+                return Directions.SOUTH.getDirection();
             default:
                 throw new IllegalArgumentException("Orientation must either be HORIZONTAL or VERTICAL");
         }
+    }
+
+    public Ship createShip(ShipConfig shipConfig) {
+        int xHeadCoordinate = shipConfig.headCoordinates.x;
+        int yHeadCoordiante = shipConfig.headCoordinates.y;
+        int length = shipConfig.shipType.getLength();
+        Square[] shipCoordinates = new Square[length];
+        Point placementDirectionCoordinates = getPlacementDirectionCoordinates(shipConfig.orientation);
         for (int i = 0; i < length; i++) {
-            shipCoordinates[i] = this.board.getSquare(headCoordinates.x + i * xCoordinate, headCoordinates.y + i * yCoordinate);
+            shipCoordinates[i] = board.getSquare(xHeadCoordinate + i * placementDirectionCoordinates.x,
+                    yHeadCoordiante + i * placementDirectionCoordinates.y);
         }
         return new Ship(shipCoordinates);
     }

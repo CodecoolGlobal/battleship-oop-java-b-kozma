@@ -3,8 +3,6 @@ package com.codecool.battleship;
 import com.codecool.battleship.board.*;
 import com.codecool.battleship.util.ShipType;
 
-import java.util.Arrays;
-
 public class Game {
 
     private final Display display;
@@ -21,31 +19,38 @@ public class Game {
 
     public void play() {
         placementPhase();
-        display.printMessages("[TESTING] Placement Phase Ended");
         shootingPhase();
+    }
+
+    private ShipConfig getUserShipConfig(ShipType shipType) {
+        Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
+        Orientations orientation = input.getUserShipOrientation();
+        ShipConfig shipConfig = new ShipConfig(shipHeadCoordinates, orientation, shipType);
+        while(!currentPlayer.getBoard().isValidPlacement(input, shipConfig)) {
+            shipHeadCoordinates = input.takeCoordinates("You cannot place here!\nGive coordinates!");
+            orientation = input.getUserShipOrientation();
+            shipConfig = new ShipConfig(shipHeadCoordinates, orientation, shipType);
+        }
+        return shipConfig;
     }
 
     private void placementPhase() {
         // NOTE this is only valid if we can want to place one of each ship
-        ShipType[] shipsToPlace = new ShipType[] {ShipType.CARRIER, ShipType.CRUISER};
-        for (ShipType shipType : shipsToPlace) {
-            for (int i = 0; i < players.length; i++) {
+        //ShipType[] shipsToPlace = ShipType.values();
+        ShipType[] shipsToPlace = {ShipType.CARRIER, ShipType.CRUISER};
+        for(ShipType shipType : shipsToPlace) {
+            for (int i=0; i < players.length; i++) {
                 display.clearConsole();
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
                 display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
-                Square shipHeadCoordinates = input.takeCoordinates("Give coordinates!");
-                Orientations orientation = input.getUserShipOrientation();
-                while (!currentPlayer.getBoard().isValidPlacement(input, display, shipHeadCoordinates, shipType, orientation)) {
-                    shipHeadCoordinates = input.takeCoordinates("You cannot place here!\nGive coordinates!");
-                    orientation = input.getUserShipOrientation();
-                }
-                Ship playerShip = currentPlayer.createShip(shipHeadCoordinates, orientation, shipType);
+                ShipConfig shipConfig = getUserShipConfig(shipType);
+                Ship playerShip = currentPlayer.createShip(shipConfig);
                 currentPlayer.placeShip(playerShip);
                 display.clearConsole();
                 display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -67,13 +72,13 @@ public class Game {
             display.printBoard(opponentBoard, Phase.SHOOTING);
             if(!getOpponent().isAlive()){break;}
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             switchPlayer();
         }
-        display.printMessages(currentPlayer.getName() + " FUCKING WON!!!!!");
+        display.printMessages(currentPlayer.getName() + " WON!!!!!");
     }
 
     private void switchPlayer() {

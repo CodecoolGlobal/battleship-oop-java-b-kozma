@@ -1,11 +1,8 @@
 package com.codecool.battleship.board;
-import com.codecool.battleship.util.SquareStatus;
 import com.codecool.battleship.Input;
-import com.codecool.battleship.util.ShipType;
 import com.codecool.battleship.util.SquareStatus;
-import java.util.ArrayList;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Board {
     private final Square[][] board;
@@ -24,8 +21,6 @@ public class Board {
         return board [xCoordinate][yCoordinate];
     }
 
-
-
     public void markShot(Square square) {
         Square target = getSquare(square.x, square.y);
         SquareStatus targetStatus = target.getStatus();
@@ -40,11 +35,7 @@ public class Board {
     }
 
     public boolean isEmpty(Square coordinates) {
-        if (board[coordinates.x][coordinates.y].getStatus() == SquareStatus.EMPTY) {
-            return true;
-        } else {
-            return false;
-        }
+        return board[coordinates.x][coordinates.y].getStatus() == SquareStatus.EMPTY;
     }
 
     public boolean isOutOfBounds(Square input) {
@@ -53,22 +44,16 @@ public class Board {
         return ((input.x >= board.length) || (input.y >= board[0].length));
     }
 
-    public boolean tryShip(Square input, ShipType type, Orientations orientation) {
-        int shipLength = type.getLength();
+    public boolean tryShip(ShipConfig shipConfig) {
+        int shipLength = shipConfig.shipType.getLength();
+        Orientations orientation = shipConfig.orientation;
+        Square headCoordinates = shipConfig.headCoordinates;
         int boardLength = board.length;
 
-        if (orientation == Orientations.HORIZONTAL){
-            if ((input.y + shipLength - 1) >= boardLength) {
-                return false;
-            } else if (!isAllEmpty(input, shipLength, Directions.EAST)) {
-                return false;
-            } else {return true;}
-        } else if (orientation == Orientations.VERTICAL){
-            if ((input.x + shipLength - 1) >= boardLength) {
-                return false;
-            } else if (!isAllEmpty(input, shipLength, Directions.SOUTH)) {
-                return false;
-            } else {return true;}
+        if (orientation == Orientations.HORIZONTAL) {
+            return (headCoordinates.y + shipLength - 1) < boardLength && isAllEmpty(headCoordinates, shipLength, Directions.EAST);
+        } else if (orientation == Orientations.VERTICAL) {
+            return (headCoordinates.x + shipLength - 1) < boardLength && isAllEmpty(headCoordinates, shipLength, Directions.SOUTH);
         }
         return false;
     }
@@ -78,7 +63,7 @@ public class Board {
     }
 
     public boolean isAllEmpty(Square input, int length, Directions direction) {
-        ArrayList<Square> result = new ArrayList<Square>();
+        ArrayList<Square> result = new ArrayList<>();
         if (direction == Directions.EAST){
             for (int i = 0; i < length; i++) {
                 result.add(getSquare(input.x, input.y+i));
@@ -112,15 +97,14 @@ public class Board {
                 }
             }
         }
-        System.out.println("Not all is empty!");
         return result.stream().allMatch(square -> square.getStatus() == SquareStatus.EMPTY);
     }
 
-    public boolean isValidPlacement(Input input, Display display, Square square, ShipType shipType, Orientations orientation) {
-        boolean isValidInput = input.isValidInput(square);
-        boolean isValidSquare = isValidInput && isValidSquare(square);
-        boolean tryShip = isValidSquare && tryShip(square, shipType, orientation);
-        return tryShip;
+    public boolean isValidPlacement(Input input, ShipConfig shipconfig) {
+        Square headCoordinates = shipconfig.headCoordinates;
+        boolean isValidInput = input.isValidInput(headCoordinates);
+        boolean isValidSquare = isValidInput && isValidSquare(headCoordinates);
+        return isValidSquare && tryShip(shipconfig);
     }
 
 }
