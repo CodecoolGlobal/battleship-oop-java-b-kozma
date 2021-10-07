@@ -36,19 +36,21 @@ public class Game {
 
     private void placementPhase() {
         // NOTE this is only valid if we can want to place one of each ship
-        ShipType[] shipsToPlace = ShipType.values();
+        //ShipType[] shipsToPlace = ShipType.values();
+        ShipType[] shipsToPlace = {ShipType.CARRIER, ShipType.CRUISER};
         for(ShipType shipType : shipsToPlace) {
             for (int i=0; i < players.length; i++) {
                 display.clearConsole();
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
+                display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
                 ShipConfig shipConfig = getUserShipConfig(shipType);
                 Ship playerShip = currentPlayer.createShip(shipConfig);
                 currentPlayer.placeShip(playerShip);
                 display.clearConsole();
                 display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -70,7 +72,7 @@ public class Game {
             display.printBoard(opponentBoard, Phase.SHOOTING);
             if(!getOpponent().isAlive()){break;}
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
