@@ -37,7 +37,7 @@ public class Game {
     private void placementPhase() {
         // NOTE this is only valid if we can want to place one of each ship
         //ShipType[] shipsToPlace = ShipType.values();
-        ShipType[] shipsToPlace = {ShipType.CARRIER, ShipType.CRUISER};
+        ShipType[] shipsToPlace = {ShipType.CARRIER, ShipType.CRUISER, ShipType.BATTLESHIP};
         for(ShipType shipType : shipsToPlace) {
             for (int i=0; i < players.length; i++) {
                 display.clearConsole();
