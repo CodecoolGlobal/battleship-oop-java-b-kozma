@@ -9,7 +9,7 @@ public enum SquareStatus {
     MISSED(  "\033[0;37m" + "M" + "\033[0m"),
     SUNK(  "\033[0;31m" + "X" + "\033[0m");
 
-    private String uniCodeCh;
+    private final String uniCodeCh;
     SquareStatus(String uniCodeCh) {
         this.uniCodeCh = uniCodeCh;
     }
