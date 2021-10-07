@@ -30,6 +30,7 @@ public class Game {
         ShipType[] shipsToPlace = new ShipType[] {ShipType.CARRIER, ShipType.CRUISER};
         for (ShipType shipType : shipsToPlace) {
             for (int i = 0; i < players.length; i++) {
+                display.clearConsole();
                 display.printMessages("Player " + currentPlayer.getName() + "'s turn \n"
                         + "Please place a " + shipType.displayName + "(" + shipType.getLength() + " squares long)");
                 display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
@@ -41,6 +42,7 @@ public class Game {
                 }
                 Ship playerShip = currentPlayer.createShip(shipHeadCoordinates, orientation, shipType);
                 currentPlayer.placeShip(playerShip);
+                display.clearConsole();
                 display.printBoard(currentPlayer.getBoard(), Phase.PLACEMENT);
                 try {
                     Thread.sleep(3000);
@@ -54,12 +56,14 @@ public class Game {
 
     private void shootingPhase() {
         while (true) {
+            display.clearConsole();
             display.printMessages("It's " + currentPlayer.getName() + "'s turn");
             Board opponentBoard = getOpponent().getBoard();
             display.printBoard(getOpponent().getBoard(), Phase.SHOOTING);
             Square target = input.takeCoordinates("Please select coordinates to shoot at!\n");
             currentPlayer.shoot(opponentBoard, target);
             getOpponent().searchForSunk();
+            display.clearConsole();
             display.printBoard(opponentBoard, Phase.SHOOTING);
             if(!getOpponent().isAlive()){break;}
             try {
